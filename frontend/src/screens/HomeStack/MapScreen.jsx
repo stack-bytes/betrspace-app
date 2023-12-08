@@ -5,6 +5,7 @@ import {GOOGLE_API_KEY} from '@env';
 import { useEffect, useState } from 'react';
 
 import * as Location from 'expo-location';
+import { Billboard } from '../../components/Buttons/Billboard';
 
 export default function MapScreen(){
 
@@ -60,6 +61,8 @@ export default function MapScreen(){
                     title='My Location'
                 />
             </MapView>
+
+            <Billboard />
         </View>
     )
 }
