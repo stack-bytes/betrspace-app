@@ -8,7 +8,6 @@ import * as Location from 'expo-location';
 
 import { Billboard } from '../../components/Buttons/Billboard';
 
-
 export default function MapScreen(){
 
     const [location, setLocation] = useState({
@@ -55,6 +54,11 @@ export default function MapScreen(){
                     strokeWidth={6}
                     strokeColor="#2DC8EA"
                     mode='WALKING'
+                />
+
+                <MapMarker 
+                    coordinate={location?.coords}
+                    title='My Location'
                 />
 
                 <MapMarker 

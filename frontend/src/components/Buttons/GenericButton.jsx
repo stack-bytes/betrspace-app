@@ -15,7 +15,7 @@ export const GenericButton = ({buttonText, backgroundColor, textColor, borderCol
                 {SvgIcon ? <SvgIcon fill={SvgIconColor ? SvgIconColor : 'white'} /> : null}
                 
                 <Text style = {[styles.text,
-                    {color: textColor ? textColor : 'white'}]}>
+                    {color: textColor ? textColor : 'white'}, {fontFamily:"Nunito_600SemiBold"}]}>
                     {buttonText}
                 </Text> 
             </View>
@@ -37,10 +37,10 @@ const styles = StyleSheet.create({
         backgroundColor:'black',
         height: 64,
         width: '85%',
-        shadowColor: '#bebebe',
-        shadowOffset: { width: 15, height: 15 },
-        shadowOpacity: 0.5,
-        shadowRadius: 29,
+        shadowColor: '#000000',
+        shadowOffset: { width: 4, height: 6},
+        shadowOpacity: 0.2,
+        shadowRadius: 4,
     },   
     text: {
         fontSize: 24,
