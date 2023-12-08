@@ -44,7 +44,7 @@ const styles = StyleSheet.create({
     },   
     text: {
         fontSize: 24,
-        fontFamily: 'IBMPlexSans_700Bold',
+        fontFamily: 'IBMPlexSans_600SemiBold',
         color: '#10E3A5',
       },
 
