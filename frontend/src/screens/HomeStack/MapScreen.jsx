@@ -6,12 +6,15 @@ import { useEffect, useState } from 'react';
 
 import * as Location from 'expo-location';
 
+import { Billboard } from '../../components/Buttons/Billboard';
+
+
 export default function MapScreen(){
 
     const [location, setLocation] = useState({
         coords: {
-            latitude: 10.762622,
-            longitude: 106.660172,
+            latitude: 46.770439,
+            longitude: 23.591423,
         }
     });
 
@@ -27,14 +30,15 @@ export default function MapScreen(){
         })();
     },[]);
 
+
     return (
         <View className='flex justify-center items-center w-full h-full'>
             <MapView 
                 className='w-full h-full'
                 provider={PROVIDER_GOOGLE}
                 initialRegion={{
-                    latitude: 10.762622,
-                    longitude: 106.660172,
+                    latitude: location.coords.latitude,
+                    longitude: location.coords.longitude,
                     latitudeDelta: 0.0922,
                     longitudeDelta: 0.0421,
                 }}
@@ -43,10 +47,14 @@ export default function MapScreen(){
             >
                 <MapViewDirections 
                     apikey={GOOGLE_API_KEY}
-                    origin={location?.coords}
-                    destination={{latitude: 10.834222, longitude: 106.660172}}
-                    strokeWidth={3}
-                    strokeColor="hotpink"
+                    origin={{
+                        latitude: location?.coords.latitude,
+                        longitude: location?.coords.longitude,
+                    }}
+                    destination={{latitude: 46.770439, longitude: 23.591423}}
+                    strokeWidth={6}
+                    strokeColor="#2DC8EA"
+                    mode='WALKING'
                 />
 
                 <MapMarker 
@@ -54,6 +62,10 @@ export default function MapScreen(){
                     title='My Location'
                 />
             </MapView>
+
+
+            <Billboard />
+
         </View>
     )
 }
