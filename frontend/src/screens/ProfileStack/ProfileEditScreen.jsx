@@ -13,7 +13,7 @@ const ProfileEditScreen = () => {
 
             <View className="w-64 h-64 bg-grey mt-10 rounded-full flex flex-col items-center justify-center mb-1">
                 <TouchableOpacity
-                className="w-60 h-60 rounded-full bg-transtext "
+                className="w-60 h-60 rounded-full bg-transtext flex items-center justify-center"
                 src={'https://thispersondoesnotexist.com/'}><ImageSvg></ImageSvg></TouchableOpacity>
             </View>
 
