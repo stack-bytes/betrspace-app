@@ -9,6 +9,8 @@ yarn.lock
 
 pack
 
+.env
+
 # Expo
 .expo/
 dist/
