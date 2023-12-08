@@ -6,11 +6,21 @@ import { useEffect, useState } from 'react';
 
 import * as Location from 'expo-location';
 
+import RunIcon from "../../../assets/icons/run-icon.svg";
+import UserIcon from "../../../assets/icons/user-icon.svg";
+
 import { Billboard } from '../../components/Buttons/Billboard';
 
 export default function MapScreen(){
 
     const [location, setLocation] = useState({
+        coords: {
+            latitude: 46.770439,
+            longitude: 23.591423,
+        }
+    });
+
+    const [targetLocation, setTargetLocation] = useState({
         coords: {
             latitude: 46.770439,
             longitude: 23.591423,
@@ -28,8 +38,7 @@ export default function MapScreen(){
             setLocation(location);
         })();
     },[]);
-
-
+    
     return (
         <View className='flex justify-center items-center w-full h-full'>
             <MapView 
@@ -51,24 +60,42 @@ export default function MapScreen(){
                         longitude: location?.coords.longitude,
                     }}
                     destination={{latitude: 46.770439, longitude: 23.591423}}
-                    strokeWidth={6}
-                    strokeColor="#2DC8EA"
+                    strokeWidth={3}
+                    strokeColor="#A1679E"
                     mode='WALKING'
                 />
 
                 <MapMarker 
                     coordinate={location?.coords}
                     title='My Location'
-                />
+                    style={{
+                        width: 50,
+                        height: 50,
+                    }}  
+                >
+                    <View className='w-full h-full bg-[#fff] rounded-full justify-center items-center'>
+                        <UserIcon width='50%' height='100%' fill='#A1679E' style={{
+                            transform: [{rotate: `${(location?.coords.heading)}deg`}]
+                        
+                        }}/>
+                    </View>
+                </MapMarker>
 
                 <MapMarker 
-                    coordinate={location?.coords}
-                    title='My Location'
-                />
+                    coordinate={targetLocation?.coords}
+                    title='SOS'
+                    description='Help me!'
+                    style={{
+                        width: 50,
+                        height: 50,
+                    }}
+                >
+                    <View className='w-full h-full bg-[#fff] rounded-full justify-center items-center'>
+                        <RunIcon width='60%' height='100%' fill='#A1679E'/>
+                    </View>
+                </MapMarker>
+
             </MapView>
-
-
-            <Billboard />
 
         </View>
     )
