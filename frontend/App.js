@@ -24,8 +24,7 @@ export default function App() {
         initialRouteName="MainStack"
       >
         <Root.Screen name="MainStack" component={MainStack} options={{headerShown: false}} />
-    </Root.Navigator>
-
+      </Root.Navigator>
     </NavigationContainer>
   );
 }
