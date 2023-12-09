@@ -1,4 +1,4 @@
-const { getLiveLocation } = require('./controllers/liveLocationController');
+const { getLiveLocation, sendLiveLocation } = require('./controllers/liveLocationController');
 const { createNewSosAlert, getRealTimeSos } = require('./controllers/sosController');
 
 const socketSetup = (server) => {
@@ -21,6 +21,10 @@ const socketSetup = (server) => {
         socket.on('getLocation', (params) => {
             getLiveLocation(params, io);
         })
+
+        socket.on('sendLocation', (params) => {
+            sendLiveLocation(params);
+        });
 
 
 

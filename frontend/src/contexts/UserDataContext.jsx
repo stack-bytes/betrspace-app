@@ -73,9 +73,12 @@ export const UserDataProvider = ({children}) => {
             console.warn("connected to socket");
         });
     
-        socket.on("userLocationUpdate", ({userId, change}) => {
-            console.log(change);
-            console.log("GOOTOOTROTOROTOTOTOTOTOTOTOTT");
+        socket.on("userLocationUpdate", ({userId, data}) => {
+
+            setTargetLocation(data.location);
+
+            console.warn('Updated target location', data.location);
+
         });
     
     
@@ -86,13 +89,25 @@ export const UserDataProvider = ({children}) => {
 
 
       useEffect(() => {
+        //Get target user location when target changes
         if(!currentSocket) return;
-
-        console.log("target changed",target);
-        console.log("currentSocket",currentSocket);
 
         currentSocket.emit("getLocation", {userId: target.userId});
       },[target]);
+
+      useEffect(() => {
+        //Send user location when user changes
+        if(!currentSocket) return;
+
+        console.log("user changed",user);
+        console.log("currentSocket",currentSocket);
+
+        currentSocket.emit("sendLocation", {
+            userId: user.userId,
+            latitude: user.coords.latitude,
+            longitude: user.coords.longitude,
+        });
+      },[user]);
 
 
 
