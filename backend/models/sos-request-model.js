@@ -4,7 +4,8 @@ const sosRequestSchema = new mongoose.Schema({
     userId: String, 
     location: {
         latitude: Number,
-        longitude: Number
+        longitude: Number,
+        radius: Number
     },
     description: String,
     tags: [String],
