@@ -5,10 +5,36 @@ import {GenericButton} from '../../components/Buttons/GenericButton';
 import {useState} from 'react';
 import { useNavigation } from '@react-navigation/native';
 
+
+import React, { useEffect } from 'react';
+import io from 'socket.io-client';
+
+
+
 export default function RequestScreen() {
     const [text, setText] = useState('');
     
     const navigation = useNavigation();
+    const serverUrl = 'http://172.20.10.6:5000';
+
+    const sendSos = () => {
+        const socket = io(serverUrl, {
+            transports: ['websocket'],
+        });
+        console.log('hello')
+        try{
+        socket.emit('createSos', {
+            latitude: 1234,
+            longitude: 1234,
+            description: "lorem impsum",
+            personInNeedId: "q6q76498716487752"
+        });
+        }catch(ex){
+            console.log("could not emmit ", ex )
+        }
+    }
+   
+
 
     return (
         <View className = 'pt-32 flex items-center w-full h-full'>
@@ -42,7 +68,10 @@ export default function RequestScreen() {
                 backgroundColor={'#2DC8EA'}
                 borderColor={'#2DC8EA'}
                 textSize={20}
-                onPress = {() => navigation.navigate('ArrivingHelpScreen')}
+                onPress = {() => {
+                    sendSos();
+                    navigation.navigate('ArrivingHelpScreen')}
+                }
             />  
             
             
