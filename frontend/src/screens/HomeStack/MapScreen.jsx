@@ -61,38 +61,6 @@ export default function MapScreen(){
         });
     }
 
-    const [alertMarker, setAlertMarker] = useState(null);
-
-    const [mapCoords, setMapCoords] = useState({
-        latitude: 46.770439,
-        longitude: 23.591423,
-    });
-
-    const simulateAlert = () => {
-        setAlertMarker({
-            coords: {
-                latitude: 46.760439,
-                longitude: 23.591476,
-            }
-        });
-
-        /*setMapCoords({
-            latitude: 46.760439,
-            longitude: 23.591476,
-            latitudeDelta: 0.01,
-            longitudeDelta: 0.01,
-        })*/
-        
-        mapRef.current.animateToRegion({
-            latitude: 46.763090,
-            longitude: 23.591476,
-            latitudeDelta: 0.01,
-            longitudeDelta: 0.01,
-        }, 1000);
-
-        setBillboardActive(true);
-    }
-
     useEffect(() => {
         (async () => {
             let { status } = await Location.requestForegroundPermissionsAsync();
