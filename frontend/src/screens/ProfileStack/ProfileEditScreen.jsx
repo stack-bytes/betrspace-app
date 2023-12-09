@@ -11,9 +11,9 @@ const ProfileEditScreen = () => {
         <>
         <ScrollView className='w-full h-full p-5' contentContainerStyle={styles.flexMidScroll} >
 
-            <View className="w-64 h-64 bg-grey mt-10 rounded-full flex flex-col items-center justify-center mb-1">
+            <View className="w-48 h-48 bg-grey mt-10 rounded-full flex flex-col items-center justify-center mb-1">
                 <TouchableOpacity
-                className="w-60 h-60 rounded-full bg-transtext flex items-center justify-center"
+                className="w-44 h-44 rounded-full bg-transtext flex items-center justify-center"
                 src={'https://thispersondoesnotexist.com/'}><ImageSvg></ImageSvg></TouchableOpacity>
             </View>
 

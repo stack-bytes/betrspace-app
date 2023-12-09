@@ -7,7 +7,7 @@ export default function HelpStack(){
         <Stack.Navigator
             id="HelpStack"
         >
-        <Stack.Screen component={RequestScreen} name="RequestScreen" options={{headerShown: false}}/>
+            <Stack.Screen component={RequestScreen} name="RequestScreen" options={{headerShown: false}}/>
         </Stack.Navigator>
     )
 }
