@@ -1,4 +1,5 @@
 const { getLiveLocation } = require('./controllers/liveLocationController');
+const { createNewSosAlert } = require('./controllers/sosController');
 
 const socketSetup = (server) => {
     const io = require('socket.io')(server);
@@ -10,8 +11,17 @@ const socketSetup = (server) => {
             console.log('User disconnected');
         });
 
+
+        // ---- User Location FUnctions ----
         socket.on('getLocation', (params) => {
             getLiveLocation(params, io);
+        })
+
+
+
+        // ---- Sos Functions ----
+        socket.on('createSos', (params) => {
+            createNewSosAlert(io, params);
         })
     });
 };

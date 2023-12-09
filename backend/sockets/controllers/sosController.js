@@ -3,8 +3,8 @@ const SosRequest = require("../../models/sos-model")
 const createNewSosAlert = async (socket,params) => {
     const newSosRequest = {
         location: {
-            latitude: params.latitude,
-            longitude: params.longitude
+            latitude: String(params.latitude),
+            longitude: String(params.longitude)
         },
         radius: 0, //to implement
         description: params.description,
@@ -16,6 +16,7 @@ const createNewSosAlert = async (socket,params) => {
         openDate: new Date(),
         closedDate: null,
     }
+
     try{
         SosRequest.create(newSosRequest);
         socket.emit('createdSosAlert', newSosRequest)
@@ -33,3 +34,5 @@ const respondToSos = async (params) => {
 const denyHelp = async (params) =>{
 
 }
+
+module.exports = {createNewSosAlert}
