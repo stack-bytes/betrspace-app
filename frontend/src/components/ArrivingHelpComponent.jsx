@@ -6,7 +6,7 @@ import { GenericButton } from './Buttons/GenericButton';
 export default function ArrivingHelpComponent({userName, arrivalTime}) {
     return (
         <View className='bg-[#fff] w-[85%] h-60 top-20 z-20 absolute rounded-[30px] shadow-2xl flex items-center gap-y-2'>
-            <Text className = 'pb-6 top-6 text-[#2DC8EA] text-[30px]'>Help is arriving!</Text>
+            <Text className = 'pb-6 top-4 text-[#2DC8EA] text-[30px]'>Help is arriving!</Text>
 
             <View className = 'pl-2 flex-row w-full h-[70px]'>
                 <ProfilePicIcon height = '90%'/>
