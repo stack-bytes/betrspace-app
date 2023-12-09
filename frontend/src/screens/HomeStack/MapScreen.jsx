@@ -13,6 +13,7 @@ import AlertIcon from "../../../assets/icons/alert-icon.svg";
 import { useNavigation } from '@react-navigation/native';
 
 import { Billboard } from '../../components/Buttons/Billboard';
+import ArrivingHelpComponent from '../../components/ArrivingHelpComponent'
 import { UserDataContext } from '../../contexts/UserDataContext';
 import io from 'socket.io-client';
 
@@ -23,10 +24,16 @@ export default function MapScreen(){
     const navigation = useNavigation();
 
     const [billboardActive, setBillboardActive] = useState(true);
+    const [arrivingHelp, setArrivingHelp] = useState(false);
 
     const toggleBillboard = () => {
         setBillboardActive(!billboardActive);
     }
+
+    const toggleArrivingHelp = () => {
+        setArrivingHelp(!arrivingHelp);
+    }
+
 
     const {target, setTarget, alertMarker, setAlertMarker, user} = useContext(UserDataContext);
 
@@ -143,9 +150,22 @@ export default function MapScreen(){
                 />
             }
 
+            {
+                arrivingHelp &&
+                <ArrivingHelpComponent 
+                    onPress={toggleArrivingHelp}    
+                    userName={target?.username}
+                    arrivalTime = '4'
+                />
+            }
+
             <TouchableOpacity 
                 className='absolute top-48 right-4 rounded-full w-10 h-10 bg-[#fff]'
                 onPress={simulateAlert}
+            />
+            <TouchableOpacity 
+                className='absolute top-96 right-4 rounded-full w-10 h-10 bg-[#fff]'
+                onPress={toggleArrivingHelp}
             />
 
             <TouchableOpacity 
