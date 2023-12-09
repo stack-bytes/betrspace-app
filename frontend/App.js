@@ -21,13 +21,12 @@ export default function App() {
   return (
     <GestureHandlerRootView>
     <NavigationContainer>
-         {/*<Root.Navigator
-           id="Root"
-           initialRouteName="MainStack"
-         >
-           <Root.Screen name="MainStack" component={MainStack} options={{headerShown: false}} />
-     </Root.Navigator>*/}
-       <ProfileEditScreen ></ProfileEditScreen>
+      <Root.Navigator
+        id="Root"
+        initialRouteName="MainStack"
+      >
+        <Root.Screen name="MainStack" component={MainStack} options={{headerShown: false}} />
+      </Root.Navigator>
     </NavigationContainer>
     </GestureHandlerRootView>
    
