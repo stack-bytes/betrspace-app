@@ -65,7 +65,7 @@ export const NavBar = () => {
 
             <Tab.Screen 
                 component={HomeStack} 
-                name="MapStack" 
+                name="HomeStack" 
                 options={{
                     tabBarShowLabel: false,
                     headerShown: false,
