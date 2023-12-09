@@ -1,7 +1,6 @@
 const mongoose = require('mongoose');
 
 const sosRequestSchema = new mongoose.Schema({
-    userId: String, 
     location: {
         latitude: Number,
         longitude: Number,
@@ -10,5 +9,10 @@ const sosRequestSchema = new mongoose.Schema({
     description: String,
     tags: [String],
     status: Boolean,
-
 })
+
+const SosRequest= mongoose.model('Sos', sosRequestSchema);
+
+module.exports = SosRequest
+
+

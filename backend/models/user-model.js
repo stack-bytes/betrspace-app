@@ -11,3 +11,7 @@ const userSchema = new mongoose.Schema({
     email: String, 
     reputationpoints: Number,
 })
+
+const User = mongoose.model('User', userSchema)
+
+module.exports = User
