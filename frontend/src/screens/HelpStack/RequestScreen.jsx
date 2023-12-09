@@ -21,19 +21,23 @@ export default function RequestScreen() {
         const socket = io(serverUrl, {
             transports: ['websocket'],
         });
-        console.log('hello')
-        try{
-        socket.emit('createSos', {
-            latitude: 1234,
-            longitude: 1234,
-            description: "lorem impsum",
-            personInNeedId: "q6q76498716487752"
-        });
-        }catch(ex){
-            console.log("could not emmit ", ex )
+    
+        console.log('hello');
+    
+        try {
+            socket.on("connect", () => {
+                socket.emit('createSos', {
+                    latitude: 1234,
+                    longitude: 1234,
+                    description: "lorem impsum",
+                    personInNeedId: "q6q76498716487752"
+                });
+                socket.disconnect();
+            });
+        } catch (ex) {
+            console.log("Could not emit ", ex);
         }
     }
-   
 
 
     return (

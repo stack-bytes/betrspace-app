@@ -8,7 +8,7 @@ const sosSchema = new mongoose.Schema({
     radius: Number,
     description: String,
     
-    personInNeedId: Number,
+    personInNeedId: String,
 
     potentialHelpers: [],
     helperAccepted: String,
