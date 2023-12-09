@@ -9,6 +9,7 @@ import * as Location from 'expo-location';
 import RunIcon from "../../../assets/icons/run-icon.svg";
 import UserIcon from "../../../assets/icons/user-icon.svg";
 import AlertIcon from "../../../assets/icons/alert-icon.svg";
+
 import { useNavigation } from '@react-navigation/native';
 
 import { Billboard } from '../../components/Buttons/Billboard';
@@ -17,6 +18,7 @@ import { UserDataContext } from '../../contexts/UserDataContext';
 export default function MapScreen(){
 
     const mapRef = useRef(null);
+
     const navigation = useNavigation();
 
     const [billboardActive, setBillboardActive] = useState(true);
@@ -57,6 +59,38 @@ export default function MapScreen(){
         navigation.getParent().navigate('HelpStack', {
             screen: 'HelpOutScreen',
         });
+    }
+
+    const [alertMarker, setAlertMarker] = useState(null);
+
+    const [mapCoords, setMapCoords] = useState({
+        latitude: 46.770439,
+        longitude: 23.591423,
+    });
+
+    const simulateAlert = () => {
+        setAlertMarker({
+            coords: {
+                latitude: 46.760439,
+                longitude: 23.591476,
+            }
+        });
+
+        /*setMapCoords({
+            latitude: 46.760439,
+            longitude: 23.591476,
+            latitudeDelta: 0.01,
+            longitudeDelta: 0.01,
+        })*/
+        
+        mapRef.current.animateToRegion({
+            latitude: 46.763090,
+            longitude: 23.591476,
+            latitudeDelta: 0.01,
+            longitudeDelta: 0.01,
+        }, 1000);
+
+        setBillboardActive(true);
     }
 
     useEffect(() => {
@@ -157,6 +191,11 @@ export default function MapScreen(){
                     target={target}
                 />
             }
+
+            <TouchableOpacity 
+                className='absolute top-48 right-4 rounded-full w-10 h-10 bg-[#fff]'
+                onPress={simulateAlert}
+            />
 
             <TouchableOpacity 
                 className='absolute top-48 right-4 rounded-full w-10 h-10 bg-[#fff]'

@@ -33,6 +33,7 @@ export const Billboard = ({onPress, onMainPress, target}) => {
                         />
                     </View>
                 }
+                
                 <View className='pl-3 pb-2 flex'>
                     <View className='flex-row items-center w-full h-10 justify-start'>
                         <View className='w-6 h-6'>
