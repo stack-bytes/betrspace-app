@@ -7,7 +7,7 @@ export default function ProfileComponent({height, width, userName, userAge, user
     return (
         <View style = {styles.shadow} className = 'pt-2 w-full h-full flex items-center'>
             <View style = {[
-                    {height: height ? height : 148  },
+                    {height: height ? height : 148},
                     {width: width ? width : '85%'}
                 ]}
                   className = 'flex-row gap-x-3 gap-y-3 rounded-[25px] bg-slate-950/[.15]'
