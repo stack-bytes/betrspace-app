@@ -23,8 +23,14 @@ const createNewSosAlert = async (socket,params) => {
     } catch(e) {console.log("could not create sos")}
 }
 
-const getLatestSosAlert = async (params) => {
-    //gets latest alert
+const getRealTimeSos = async (socket) => {
+    try{
+        const changeStream = SosRequest.watch();
+
+        changeStream.on('change', (change) => {
+            socket.emit('latestSos', change)
+        })
+    } catch (e) {console.log('could not get latest: ', e)}
 } 
 
 const respondToSos = async (params) => {
@@ -35,4 +41,4 @@ const denyHelp = async (params) =>{
 
 }
 
-module.exports = {createNewSosAlert}
+module.exports = {createNewSosAlert, getRealTimeSos}
