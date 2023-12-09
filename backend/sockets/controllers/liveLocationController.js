@@ -37,6 +37,7 @@ const getLiveLocation = async (params, socket) => {
 
         changeStream.on('change', (change) => {
             if(change.documentKey._id == userId){
+                console.log('userLocationUpdate', { userId,  change:"test"});
                 socket.emit('userLocationUpdate', { userId,  change});
             }
         });

@@ -63,29 +63,6 @@ export const UserDataProvider = ({children}) => {
         })();
     },[]);
 
-    useEffect(() => {
-    
-        const socket = io("http://192.168.35.111:5000",{
-            transports: ['websocket'],
-        });
-        setCurrentSocket(socket);
-        socket.io.on("open", () => {
-            console.warn("connected to socket");
-            socket.io.emit("getLocation", {userId: target.userId}, (ack) => {
-                console.log("ack",ack);
-            } );
-        });
-
-        socket.io.on("userLocationUpdate", (data) => {
-            console.log(data);
-            console.log("GOOTOOTROTOROTOTOTOTOTOTOTOTT");
-        });
-
-
-        return () => {
-            socket.io.disconnect();
-        }
-      },[]);
 
       /*useEffect(() => {
         if(!currentSocket) return;
