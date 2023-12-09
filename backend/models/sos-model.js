@@ -8,6 +8,8 @@ const sosSchema = new mongoose.Schema({
     radius: Number,
     description: String,
     
+    personInNeedId: Number,
+
     potentialHelpers: [],
     helperAccepted: String,
     helpSetteled: Boolean,

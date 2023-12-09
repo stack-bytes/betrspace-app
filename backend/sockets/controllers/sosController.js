@@ -9,6 +9,7 @@ const createNewSosAlert = async (socket,params) => {
         radius: 0, //to implement
         description: params.description,
         
+        personInNeedId: params.personInNeedId,
         potentialHelpers: [],
         helperAccepted: null,
         helpSettled: false,
@@ -44,6 +45,7 @@ const applyForSos = async (params) => {
         if(!sosHelp) {console.log('Nu ai sos!'); return;}
         if(!sosHelper) {console.log('Nu ai ajutor!'); return;}
 
+        if(sosHelp.helpSetteled) {}
         const pothel = sosHelp.potentialHelpers;
         pothel.push(helperId);
 
@@ -51,14 +53,40 @@ const applyForSos = async (params) => {
 
         await sosHelp.save();
 
-        console.log('succesfully added helper')
+        console.log('succesfully added helper! ✅')
     } catch(e){
         console.log("Alimentara de sos nu e deschisa! : ",  e)
     }
 }
 
 const denyHelp = async (params) =>{
+    const deniedHelperId = params.deniedHelperId;
+    const personInNeedId = params.personInNeedId;
 
+    try{
+        const sosWanted = await SosRequest.findOne({personInNeedId: personInNeedId});
+        if(!sosWanted){console.log("could not get denied person sos"); return;}
+        
+        sosWanted.potentialHelpers = sosWanted.potentialHelpers.filter(helperId => helperId !== deniedHelperId);
+        
+        sosWanted.save();
+    } catch(e){
+        console.log("Could nor deny: ", e)
+    }
+}
+
+const acceptHelp = async (params) => {
+    const acceptedHelperId = params.aceeptedHelperId;
+    const personInNeedId = params.personInNeedId;
+
+    try{
+        const sosWanted = await SosRequest.findOne({personInNeedId: personInNeedId});
+        sosWanted.helperAccepted = acceptedHelperId;
+        sosWanted.helpSetteled = true;
+        sosWanted.save();
+    } catch (ex){
+        console.log('could not get sos for accept: ', ex)
+    }
 }
 
 module.exports = {createNewSosAlert, getRealTimeSos}
