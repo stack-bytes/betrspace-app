@@ -9,7 +9,7 @@ dotenv.config();
 
 const EXPRESS_PORT = process.env.EXPRESS_PORT || 4949;
 const SOCKETIO_PORT = process.env.SOCKETIO_PORT || 5000;
-const SERVER_URL = process.env.SERVER_URL || 'http://localhost';
+const SERVER_URL = process.env.SERVER_URL || 'http://192.168.35.111';
 
 const app = express();
 app.use(express.json());

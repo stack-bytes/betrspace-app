@@ -18,7 +18,7 @@ export default function ArrivingHelpScreen() {
             </TouchableOpacity>
 
             <Text className = 'pb-8 text-[#A1679E] text-[30px] font-semibold'>Help is arriving!</Text>
-            <RunIcon height = '200px'/>
+            
             <ProfileComponent
                 userName = 'George Michael'
                 userAge = '28'
