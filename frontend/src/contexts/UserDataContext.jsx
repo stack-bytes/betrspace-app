@@ -3,7 +3,17 @@ import { createContext, useState } from "react";
 export const UserDataContext = createContext();
 
 export const UserDataProvider = ({children}) => {
-    const [target, setTarget] = useState(null);
+    const [target, setTarget] = useState({
+        coords: {
+            latitude: 46.770439,
+            longitude: 23.591423,
+        },
+        username: 'John Doe',
+        photo: 'https://doctorat.utcluj.ro/images/utcn-logo.png',
+        request: 'I need help!',
+    });
+
+    const [alertMarker, setAlertMarker] = useState(null);
 
     const [user, setUser] = useState(null);
     
@@ -20,6 +30,8 @@ export const UserDataProvider = ({children}) => {
             setTargetLocation,
             user,
             setUser,
+            alertMarker,
+            setAlertMarker,
         }}>
             {children}
         </UserDataContext.Provider>
