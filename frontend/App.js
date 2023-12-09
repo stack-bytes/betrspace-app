@@ -20,13 +20,12 @@ export default function App() {
 
   return (
     <NavigationContainer>
-      {/*<Root.Navigator
+      <Root.Navigator
         id="Root"
         initialRouteName="MainStack"
       >
         <Root.Screen name="MainStack" component={MainStack} options={{headerShown: false}} />
-  </Root.Navigator>*/}
-    <ProfileScreen ></ProfileScreen>
+      </Root.Navigator>
     </NavigationContainer>
   );
 }
