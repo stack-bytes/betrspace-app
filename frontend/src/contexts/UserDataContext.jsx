@@ -63,15 +63,36 @@ export const UserDataProvider = ({children}) => {
         })();
     },[]);
 
+    useEffect(() => {
+    
+        const socket = io("http://192.168.35.111:5000",{
+            transports: ['websocket'],
+        });
+        setCurrentSocket(socket);
+        socket.io.on("open", () => {
+            console.warn("connected to socket");
+        });
+    
+        socket.on("userLocationUpdate", ({userId, change}) => {
+            console.log(change);
+            console.log("GOOTOOTROTOROTOTOTOTOTOTOTOTT");
+        });
+    
+    
+        return () => {
+            socket.io.disconnect();
+        }
+      },[]);
 
-      /*useEffect(() => {
+
+      useEffect(() => {
         if(!currentSocket) return;
 
         console.log("target changed",target);
         console.log("currentSocket",currentSocket);
 
-        currentSocket.io.emit("getLocation", {userId: target.userId});
-      },[target]);*/
+        currentSocket.emit("getLocation", {userId: target.userId});
+      },[target]);
 
 
 

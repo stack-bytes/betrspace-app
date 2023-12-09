@@ -34,31 +34,6 @@ export default function MapScreen(){
         setArrivingHelp(!arrivingHelp);
     }
 
-    useEffect(() => {
-    
-        const socket = io("http://192.168.35.111:5000",{
-            transports: ['websocket'],
-        });
-        //setCurrentSocket(socket);
-        socket.io.on("open", () => {
-            console.warn("connected to socket");
-            socket.emit("getLocation", {userId: '6573da517e0b1dcd1f0e843d'}, (ack) => {
-                console.warn("ack",ack);
-            } );
-        });
-    
-        socket.on("userLocationUpdate", ({userId, change}) => {
-            console.log(change);
-            console.log("GOOTOOTROTOROTOTOTOTOTOTOTOTT");
-        });
-    
-    
-        return () => {
-            socket.io.disconnect();
-        }
-      },[]);
-
-
     const {target, setTarget, alertMarker, setAlertMarker, user} = useContext(UserDataContext);
 
     const simulateAlert = () => {
