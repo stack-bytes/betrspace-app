@@ -5,6 +5,7 @@ import {GenericButton} from '../../components/Buttons/GenericButton';
 import {useState} from 'react';
 import { useNavigation } from '@react-navigation/native';
 
+import {GenericInput} from "../../components/Buttons/GenericInput"
 
 import React, { useEffect } from 'react';
 import io from 'socket.io-client';
@@ -21,8 +22,6 @@ export default function RequestScreen() {
         const socket = io(serverUrl, {
             transports: ['websocket'],
         });
-    
-        console.log('hello');
     
         try {
             socket.on("connect", () => {
@@ -54,15 +53,8 @@ export default function RequestScreen() {
             </View>
             <Text className = 'text-[35px] pb-8'>Request Help</Text>
 
-            <View style = {{dropShadow: '12px'}} className = 'mb-44 h-14 w-[85%] items-center justify-center border-[1px] rounded-[25px] bg-slate-950/[.15]'>
-                <TextInput
-                    placeholder = "Your problem ..."
-                    placeholderTextColor = "rgb(192, 192, 192, 1)"
-                    onChangeText={newText => setText(newText)}
-                    defaultValue = {text}
-                    className = 'pl-2 w-full h-full text-[20px] text-white'	
-                    returnKeyType="done"
-                />
+            <View className = 'mb-44 h-14 w-[85%] items-center justify-center rounded-[25px] bg-slate-950/[.15]'>
+                <GenericInput></GenericInput>
             </View>
             
             
