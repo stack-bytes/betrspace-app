@@ -42,6 +42,7 @@ export default function RequestScreen() {
                 backgroundColor={'#2DC8EA'}
                 borderColor={'#2DC8EA'}
                 textSize={20}
+                onPress = {() => navigation.navigate('ArrivingHelpScreen')}
             />  
             
             
