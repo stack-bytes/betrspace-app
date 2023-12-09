@@ -13,6 +13,12 @@ import { Billboard } from '../../components/Buttons/Billboard';
 
 export default function MapScreen(){
 
+    const [billboardActive, setBillboardActive] = useState(true);
+
+    const toggleBillboard = () => {
+        setBillboardActive(!billboardActive);
+    }
+
     const [location, setLocation] = useState({
         coords: {
             latitude: 46.770439,
@@ -89,6 +95,7 @@ export default function MapScreen(){
                         width: 50,
                         height: 50,
                     }}
+                    onPress={toggleBillboard}
                 >
                     <View className='w-full h-full bg-[#fff] rounded-full justify-center items-center'>
                         <RunIcon width='60%' height='100%' fill='#A1679E'/>
@@ -96,6 +103,8 @@ export default function MapScreen(){
                 </MapMarker>
 
             </MapView>
+
+            {billboardActive && <Billboard onPress={toggleBillboard}/>}
 
         </View>
     )
