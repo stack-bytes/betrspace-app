@@ -2,12 +2,14 @@ const mongoose = require('mongoose');
 
 const sosSchema = new mongoose.Schema({
     location: {
-        latitude: Number,
-        longitude: Number,
+        latitude: String,
+        longitude: String,
     },
     radius: Number,
     description: String,
     
+    personInNeedId: Number,
+
     potentialHelpers: [],
     helperAccepted: String,
     helpSetteled: Boolean,
