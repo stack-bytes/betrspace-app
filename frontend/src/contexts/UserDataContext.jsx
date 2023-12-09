@@ -6,7 +6,11 @@ import * as Location from 'expo-location';
 
 export const UserDataContext = createContext();
 
+
 export const UserDataProvider = ({children}) => {
+
+    const [currentSocket, setCurrentSocket] = useState(null);
+
     const [target, setTarget] = useState({
         userId: '6573da517e0b1dcd1f0e843d',
         coords: {
@@ -23,6 +27,7 @@ export const UserDataProvider = ({children}) => {
     const [user, setUser] = useState(null);
     
     const setTargetLocation = (coords) => {
+        console.log("test",coords)
         setTarget({
             ...target,
             coords: coords,
@@ -58,28 +63,15 @@ export const UserDataProvider = ({children}) => {
         })();
     },[]);
 
-    useEffect(() => {
-    
-        const socket = io("http://192.168.35.111:5000",{
-            transports: ['websocket'],
-        });
-    
-        socket.io.on("open", () => {
-            console.log("OOOFDOFKA");
-            console.log("connected to socket");
-        });
 
-        const userId = target.userId || '';
-        socket.io.on("userLocationUpdate", (data) => {
-            console.log(data);
-        });
+      /*useEffect(() => {
+        if(!currentSocket) return;
 
-        //socket.io.emit()
+        console.log("target changed",target);
+        console.log("currentSocket",currentSocket);
 
-        return () => {
-            socket.io.disconnect();
-        }
-      },[]);
+        currentSocket.io.emit("getLocation", {userId: target.userId});
+      },[target]);*/
 
 
 

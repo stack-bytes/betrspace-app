@@ -24,6 +24,7 @@ const sendLiveLocation = async (params) =>{
 
 const getLiveLocation = async (params, socket) => {
     const userId = params.userId;   
+    console.log(userId);
     try{
         console.log(userId);
         const user = await User.findById(userId);
@@ -42,6 +43,7 @@ const getLiveLocation = async (params, socket) => {
 
         changeStream.on('change', (change) => {
             if(change.documentKey._id == userId){
+                console.log('userLocationUpdate', { userId,  change:"test"});
                 socket.emit('userLocationUpdate', { userId,  change});
             }
         });
