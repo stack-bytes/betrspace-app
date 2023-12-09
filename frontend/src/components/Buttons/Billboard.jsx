@@ -5,8 +5,8 @@ import MarkerIcon from '../../../assets/icons/marker-icon.svg';
 import { Image, Text, TouchableOpacity, View } from 'react-native';
 import { GenericButton } from './GenericButton';
 
-export const Billboard = ({onPress}) => {
-
+export const Billboard = ({onPress, onMainPress, target}) => {
+    console.log(target);
     return (
         <View className='bg-[#fff] w-[85%] h-96 top-20 z-20 absolute rounded-[30px] shadow-2xl flex items-center justify-center gap-y-2'>
             <TouchableOpacity 
@@ -23,6 +23,16 @@ export const Billboard = ({onPress}) => {
 
                 <View className='bg-[#000]/[0.25] w-full h-full absolute rounded-3xl'/>
 
+                {
+                    //Add profile picture
+                    target &&
+                    <View className='absolute top-2 right-2 justify-center items-center'>
+                        <Image
+                            source={{uri: target?.photo}}
+                            className='w-16 h-16 rounded-3xl shadow-2xl bg-[#000]'
+                        />
+                    </View>
+                }
                 <View className='pl-3 pb-2 flex'>
                     <View className='flex-row items-center w-full h-10 justify-start'>
                         <View className='w-6 h-6'>
@@ -55,6 +65,7 @@ export const Billboard = ({onPress}) => {
                     borderColor={'#2DC8EA'}
                     buttonText={'Details'}
                     height={56}
+                    onPress={onMainPress}
                 />
             </View>
         </View>

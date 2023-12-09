@@ -11,8 +11,8 @@ export default function ProfileStack(){
             id="ProfileStack"
             initialRouteName="ProfileScreen"
         >
-        <Stack.Screen component={ProfileScreen} name="ProfileScreen" options={{headerShown: false}}/>
-        <Stack.Screen component={ProfileEditScreen} name="ProfileEditScreen" options={{headerShown: false}}/>
+            <Stack.Screen component={ProfileScreen} name="ProfileScreen" options={{headerShown: false}}/>
+            <Stack.Screen component={ProfileEditScreen} name="ProfileEditScreen" options={{headerShown: false}}/>
         </Stack.Navigator>
     )
 }
