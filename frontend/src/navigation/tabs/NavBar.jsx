@@ -1,7 +1,8 @@
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs"
 import HomeStack from "../stacks/HomeStack";
+import ProfileStack from "../stacks/ProfileStack";
 
-import HelpStack from "./HelpStack";
+import HelpStack from "../stacks/HelpStack";
 import UserIcon from '../../../assets/icons/user-icon.svg';
 import AlertIcon from '../../../assets/icons/alert-icon.svg';
 import MapIcon from '../../../assets/icons/map-icon.svg';
@@ -33,7 +34,7 @@ export const NavBar = () => {
             }}
         >
             <Tab.Screen 
-                component={HomeStack} 
+                component={ProfileStack} 
                 name="ProfileStack" 
                 options={{
                     tabBarShowLabel: false,
@@ -48,7 +49,7 @@ export const NavBar = () => {
             />
 
             <Tab.Screen 
-                component={HomeStack} 
+                component={HelpStack} 
                 name="HelpStack" 
                 options={{
                     tabBarShowLabel: false,
