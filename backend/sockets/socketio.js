@@ -22,6 +22,7 @@ const socketSetup = (server) => {
         // ---- Sos Functions ----
         
         socket.on('createSos', (params) => {
+            console.log('hello');
             createNewSosAlert(io, params);
         })
 
