@@ -14,18 +14,14 @@ export default function HelpOutScreen(){
 
     const [pending, setPending] = useState(false);
 
-    const {target, setTarget, alertMarker, setAlertMarker} = useContext(UserDataContext);
+    const {target, alertMarker, setAlertMarker, setTargetLocation} = useContext(UserDataContext);
 
     const setTargetAlert = () => {
-        setTarget(
+        
+        setTargetLocation(
             {
-                coords: {
-                    latitude: alertMarker.coords.latitude,
-                    longitude: alertMarker.coords.longitude,
-                },
-                username: 'John Doe',
-                photo: 'https://doctorat.utcluj.ro/images/utcn-logo.png',
-                request: 'I need help with speaking to staff!',
+                latitude: alertMarker.coords.latitude,
+                longitude: alertMarker.coords.longitude,
             }
         );
 

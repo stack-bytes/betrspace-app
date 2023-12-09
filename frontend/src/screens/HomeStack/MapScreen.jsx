@@ -34,7 +34,6 @@ export default function MapScreen(){
         setArrivingHelp(!arrivingHelp);
     }
 
-
     const {target, setTarget, alertMarker, setAlertMarker, user} = useContext(UserDataContext);
 
     const simulateAlert = () => {

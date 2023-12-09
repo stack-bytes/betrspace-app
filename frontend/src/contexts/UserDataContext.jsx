@@ -6,7 +6,11 @@ import * as Location from 'expo-location';
 
 export const UserDataContext = createContext();
 
+
 export const UserDataProvider = ({children}) => {
+
+    const [currentSocket, setCurrentSocket] = useState(null);
+
     const [target, setTarget] = useState({
         userId: '6573da517e0b1dcd1f0e843d',
         coords: {
@@ -23,6 +27,7 @@ export const UserDataProvider = ({children}) => {
     const [user, setUser] = useState(null);
     
     const setTargetLocation = (coords) => {
+        console.log("test",coords)
         setTarget({
             ...target,
             coords: coords,
@@ -63,23 +68,46 @@ export const UserDataProvider = ({children}) => {
         const socket = io("http://192.168.35.111:5000",{
             transports: ['websocket'],
         });
-    
+        setCurrentSocket(socket);
         socket.io.on("open", () => {
-            console.log("OOOFDOFKA");
-            console.log("connected to socket");
+            console.warn("connected to socket");
         });
+    
+        socket.on("userLocationUpdate", ({userId, data}) => {
 
-        const userId = target.userId || '';
-        socket.io.on("userLocationUpdate", (data) => {
-            console.log(data);
+            setTargetLocation(data.location);
+
+            console.warn('Updated target location', data.location);
+
         });
-
-        //socket.io.emit()
-
+    
+    
         return () => {
             socket.io.disconnect();
         }
       },[]);
+
+
+      useEffect(() => {
+        //Get target user location when target changes
+        if(!currentSocket) return;
+
+        currentSocket.emit("getLocation", {userId: target.userId});
+      },[target]);
+
+      useEffect(() => {
+        //Send user location when user changes
+        if(!currentSocket) return;
+
+        console.log("user changed",user);
+        console.log("currentSocket",currentSocket);
+
+        currentSocket.emit("sendLocation", {
+            userId: user.userId,
+            latitude: user.coords.latitude,
+            longitude: user.coords.longitude,
+        });
+      },[user]);
 
 
 

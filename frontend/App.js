@@ -10,6 +10,7 @@ import io from 'socket.io-client';
 import { useEffect } from 'react';
 
 export default function App() {
+
   let [fontsLoaded] = useFonts({
     Nunito_300Light,
     Nunito_500Medium,
