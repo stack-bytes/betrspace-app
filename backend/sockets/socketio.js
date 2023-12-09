@@ -20,6 +20,7 @@ const socketSetup = (server) => {
 
 
         // ---- Sos Functions ----
+        
         socket.on('createSos', (params) => {
             createNewSosAlert(io, params);
         })
