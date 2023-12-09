@@ -8,7 +8,7 @@ const manageConnection = {
   openConnection: async () => {
     try {
       await mongoose.connect(uri, {
-        dbName: "UnifyData",
+        dbName: "BetrData",
       });
       console.log("🍃 Client connected to MongoDB 🍃");
     } catch (error) {

@@ -9,9 +9,11 @@ const sosRequestSchema = new mongoose.Schema({
     description: String,
     tags: [String],
     status: Boolean,
+    helper: String,
+    helperAccepted: Boolean,
 })
 
-const SosRequest= mongoose.model('Sos', sosRequestSchema);
+const SosRequest= mongoose.model('SosRequest', sosRequestSchema);
 
 module.exports = SosRequest
 
