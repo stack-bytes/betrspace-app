@@ -1,6 +1,7 @@
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs"
 import HomeStack from "./HomeStack";
 
+import HelpStack from "./HelpStack";
 import UserIcon from '../../../assets/icons/user-icon.svg';
 import AlertIcon from '../../../assets/icons/alert-icon.svg';
 import MapIcon from '../../../assets/icons/map-icon.svg';
@@ -13,7 +14,7 @@ export const NavBar = () => {
     return (
         <Tab.Navigator
             id="NavBar"
-            initialRouteName="HomeStack"
+            initialRouteName="HelpStack"
             screenOptions={{
                 showLabel: false,
                 headerTransparent: true,
@@ -75,8 +76,6 @@ export const NavBar = () => {
                 }}
                 
             />
-
-
 
         </Tab.Navigator>
     )

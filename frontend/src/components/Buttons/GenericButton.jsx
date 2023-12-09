@@ -1,6 +1,6 @@
 import {View, Text, TouchableOpacity, StyleSheet, Image} from 'react-native';
 
-export const GenericButton = ({buttonText, backgroundColor, textColor, borderColor, SvgIcon, SvgIconColor, onPress, height, width}) => {
+export const GenericButton = ({textSize, buttonText, backgroundColor, textColor, borderColor, SvgIcon, SvgIconColor, onPress, height, width}) => {
     return (
         <TouchableOpacity 
             style = {[styles.container, {backgroundColor: backgroundColor ? backgroundColor : 'black'},
@@ -15,7 +15,12 @@ export const GenericButton = ({buttonText, backgroundColor, textColor, borderCol
                 {SvgIcon ? <SvgIcon fill={SvgIconColor ? SvgIconColor : 'white'} /> : null}
                 
                 <Text style = {[styles.text,
-                    {color: textColor ? textColor : 'white'}, {fontFamily:"Nunito_600SemiBold"}]}>
+                    {color: textColor ? textColor : 'white'},
+                    {fontFamily:"Nunito_600SemiBold"},
+                    {fontSize: textSize ? textSize : 24}
+                ]}
+                    
+                >
                     {buttonText}
                 </Text> 
             </View>
