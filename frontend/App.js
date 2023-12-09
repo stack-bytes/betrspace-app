@@ -6,6 +6,9 @@ import MainStack from './src/navigation/MainStack'
 import { UserDataProvider } from './src/contexts/UserDataContext';
 const Root = createStackNavigator();
 
+import io from 'socket.io-client';
+import { useEffect } from 'react';
+
 export default function App() {
   let [fontsLoaded] = useFonts({
     Nunito_300Light,

@@ -13,7 +13,9 @@ import AlertIcon from "../../../assets/icons/alert-icon.svg";
 import { useNavigation } from '@react-navigation/native';
 
 import { Billboard } from '../../components/Buttons/Billboard';
+import ArrivingHelpComponent from '../../components/ArrivingHelpComponent'
 import { UserDataContext } from '../../contexts/UserDataContext';
+import io from 'socket.io-client';
 
 export default function MapScreen(){
 
@@ -22,19 +24,18 @@ export default function MapScreen(){
     const navigation = useNavigation();
 
     const [billboardActive, setBillboardActive] = useState(true);
+    const [arrivingHelp, setArrivingHelp] = useState(false);
 
     const toggleBillboard = () => {
         setBillboardActive(!billboardActive);
     }
 
-    const [location, setLocation] = useState({
-        coords: {
-            latitude: 46.770439,
-            longitude: 23.591423,
-        }
-    });
+    const toggleArrivingHelp = () => {
+        setArrivingHelp(!arrivingHelp);
+    }
 
-    const {target, setTarget, alertMarker, setAlertMarker} = useContext(UserDataContext);
+
+    const {target, setTarget, alertMarker, setAlertMarker, user} = useContext(UserDataContext);
 
     const simulateAlert = () => {
         //if(target) return;
@@ -61,49 +62,6 @@ export default function MapScreen(){
         });
     }
 
-    const [alertMarker, setAlertMarker] = useState(null);
-
-    const [mapCoords, setMapCoords] = useState({
-        latitude: 46.770439,
-        longitude: 23.591423,
-    });
-
-    const simulateAlert = () => {
-        setAlertMarker({
-            coords: {
-                latitude: 46.760439,
-                longitude: 23.591476,
-            }
-        });
-
-        /*setMapCoords({
-            latitude: 46.760439,
-            longitude: 23.591476,
-            latitudeDelta: 0.01,
-            longitudeDelta: 0.01,
-        })*/
-        
-        mapRef.current.animateToRegion({
-            latitude: 46.763090,
-            longitude: 23.591476,
-            latitudeDelta: 0.01,
-            longitudeDelta: 0.01,
-        }, 1000);
-
-        setBillboardActive(true);
-    }
-
-    useEffect(() => {
-        (async () => {
-            let { status } = await Location.requestForegroundPermissionsAsync();
-            if (status !== 'granted') {
-                setErrorMsg('Permission to access location was denied');
-                return;
-            }
-            let location = await Location.getCurrentPositionAsync({});
-            setLocation(location);
-        })();
-    },[]);
     
     return (
         <View className='flex justify-center items-center w-full h-full'>
@@ -112,8 +70,8 @@ export default function MapScreen(){
                 className='w-full h-full'
                 provider={PROVIDER_GOOGLE}
                 initialRegion={{
-                    latitude: location.coords.latitude,
-                    longitude: location.coords.longitude,
+                    latitude: user?.coords.latitude || 46.770439,
+                    longitude: user?.coords.longitude || 23.591423,
                     latitudeDelta: 0.0922,
                     longitudeDelta: 0.0421,
                 }}
@@ -122,8 +80,8 @@ export default function MapScreen(){
                 <MapViewDirections 
                     apikey={GOOGLE_API_KEY}
                     origin={{
-                        latitude: location?.coords.latitude,
-                        longitude: location?.coords.longitude,
+                        latitude: user?.coords.latitude,
+                        longitude: user?.coords.longitude,
                     }}
                     destination={{
                         latitude: target?.coords.latitude,
@@ -135,7 +93,7 @@ export default function MapScreen(){
                 />
 
                 <MapMarker 
-                    coordinate={location?.coords}
+                    coordinate={user?.coords}
                     title='My Location'
                     style={{
                         width: 50,
@@ -144,7 +102,7 @@ export default function MapScreen(){
                 >
                     <View className='w-full h-full bg-[#fff] rounded-full justify-center items-center'>
                         <UserIcon width='50%' height='100%' fill='#A1679E' style={{
-                            transform: [{rotate: `${(location?.coords.heading)}deg`}]
+                            transform: [{rotate: `${(user?.coords.heading)}deg`}]
                         
                         }}/>
                     </View>
@@ -192,9 +150,22 @@ export default function MapScreen(){
                 />
             }
 
+            {
+                arrivingHelp &&
+                <ArrivingHelpComponent 
+                    onPress={toggleArrivingHelp}    
+                    userName={target?.username}
+                    arrivalTime = '4'
+                />
+            }
+
             <TouchableOpacity 
                 className='absolute top-48 right-4 rounded-full w-10 h-10 bg-[#fff]'
                 onPress={simulateAlert}
+            />
+            <TouchableOpacity 
+                className='absolute top-96 right-4 rounded-full w-10 h-10 bg-[#fff]'
+                onPress={toggleArrivingHelp}
             />
 
             <TouchableOpacity 
