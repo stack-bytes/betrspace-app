@@ -24,6 +24,7 @@ const sendLiveLocation = async (params) =>{
 
 const getLiveLocation = async (params, socket) => {
     const userId = params.userId;   
+    console.log(userId);
     try{
         console.log(userId);
         const user = await User.findById(userId);
