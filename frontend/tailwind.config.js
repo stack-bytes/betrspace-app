@@ -5,6 +5,7 @@ module.exports = {
     colors:{
       bgr:"#FAFAFA", 
       text:"#1A1A1A",
+      transtext:"#1A1A1A99",
       primary:"#2DC8EA",
       secondary:"#A1679E",
       danger: "#F53A3A",

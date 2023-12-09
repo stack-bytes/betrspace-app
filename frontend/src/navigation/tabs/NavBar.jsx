@@ -1,5 +1,5 @@
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs"
-import HomeStack from "./HomeStack";
+import HomeStack from "../stacks/HomeStack";
 
 import HelpStack from "./HelpStack";
 import UserIcon from '../../../assets/icons/user-icon.svg';
