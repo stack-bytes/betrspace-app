@@ -49,7 +49,7 @@ export const NavBar = () => {
             />
 
             <Tab.Screen 
-                component={HomeStack} 
+                component={HelpStack} 
                 name="HelpStack" 
                 options={{
                     tabBarShowLabel: false,

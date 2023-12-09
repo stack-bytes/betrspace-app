@@ -1,17 +1,20 @@
-import {View, Text} from 'react-native';
+import {View, Text, TouchableOpacity} from 'react-native';
 import MapView, { MapMarker, PROVIDER_GOOGLE } from 'react-native-maps';
 import MapViewDirections from 'react-native-maps-directions';
 import {GOOGLE_API_KEY} from '@env';
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 
 import * as Location from 'expo-location';
 
 import RunIcon from "../../../assets/icons/run-icon.svg";
 import UserIcon from "../../../assets/icons/user-icon.svg";
+import AlertIcon from "../../../assets/icons/alert-icon.svg";
 
 import { Billboard } from '../../components/Buttons/Billboard';
 
 export default function MapScreen(){
+
+    const mapRef = useRef(null);
 
     const [billboardActive, setBillboardActive] = useState(true);
 
@@ -33,6 +36,38 @@ export default function MapScreen(){
         }
     });
 
+    const [alertMarker, setAlertMarker] = useState(null);
+
+    const [mapCoords, setMapCoords] = useState({
+        latitude: 46.770439,
+        longitude: 23.591423,
+    });
+
+    const simulateAlert = () => {
+        setAlertMarker({
+            coords: {
+                latitude: 46.760439,
+                longitude: 23.591476,
+            }
+        });
+
+        /*setMapCoords({
+            latitude: 46.760439,
+            longitude: 23.591476,
+            latitudeDelta: 0.01,
+            longitudeDelta: 0.01,
+        })*/
+        
+        mapRef.current.animateToRegion({
+            latitude: 46.763090,
+            longitude: 23.591476,
+            latitudeDelta: 0.01,
+            longitudeDelta: 0.01,
+        }, 1000);
+
+        setBillboardActive(true);
+    }
+
     useEffect(() => {
         (async () => {
             let { status } = await Location.requestForegroundPermissionsAsync();
@@ -48,6 +83,7 @@ export default function MapScreen(){
     return (
         <View className='flex justify-center items-center w-full h-full'>
             <MapView 
+                ref={(ref) => mapRef.current = ref}
                 className='w-full h-full'
                 provider={PROVIDER_GOOGLE}
                 initialRegion={{
@@ -56,7 +92,13 @@ export default function MapScreen(){
                     latitudeDelta: 0.0922,
                     longitudeDelta: 0.0421,
                 }}
-                
+
+                region={{
+                    latitude: mapCoords.latitude,
+                    longitude: mapCoords.longitude,
+                    latitudeDelta: mapCoords.latitudeDelta,
+                    longitudeDelta: mapCoords.longitudeDelta,
+                }}
             
             >
                 <MapViewDirections 
@@ -102,9 +144,30 @@ export default function MapScreen(){
                     </View>
                 </MapMarker>
 
+                {
+                    alertMarker && 
+                    <MapMarker 
+                        coordinate={alertMarker?.coords}
+                        title='Help me!'
+                        style={{
+                            width: 50,
+                            height: 50,
+                        }}
+                    >
+                        <View className='w-full h-full bg-[#fff] rounded-full justify-center items-center'>
+                            <AlertIcon width='60%' height='100%' fill='#A1679E'/>
+                        </View>
+                    </MapMarker>
+                }
+
             </MapView>
 
             {billboardActive && <Billboard onPress={toggleBillboard}/>}
+
+            <TouchableOpacity 
+                className='absolute top-48 right-4 rounded-full w-10 h-10 bg-[#fff]'
+                onPress={simulateAlert}
+            />
 
         </View>
     )
