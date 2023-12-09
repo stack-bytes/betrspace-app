@@ -2,7 +2,7 @@ import {View, Text, TouchableOpacity} from 'react-native';
 import MapView, { MapMarker, PROVIDER_GOOGLE } from 'react-native-maps';
 import MapViewDirections from 'react-native-maps-directions';
 import {GOOGLE_API_KEY} from '@env';
-import { useEffect, useRef, useState } from 'react';
+import { useContext, useEffect, useRef, useState } from 'react';
 
 import * as Location from 'expo-location';
 
@@ -10,11 +10,16 @@ import RunIcon from "../../../assets/icons/run-icon.svg";
 import UserIcon from "../../../assets/icons/user-icon.svg";
 import AlertIcon from "../../../assets/icons/alert-icon.svg";
 
+import { useNavigation } from '@react-navigation/native';
+
 import { Billboard } from '../../components/Buttons/Billboard';
+import { UserDataContext } from '../../contexts/UserDataContext';
 
 export default function MapScreen(){
 
     const mapRef = useRef(null);
+
+    const navigation = useNavigation();
 
     const [billboardActive, setBillboardActive] = useState(true);
 
@@ -29,12 +34,32 @@ export default function MapScreen(){
         }
     });
 
-    const [targetLocation, setTargetLocation] = useState({
-        coords: {
-            latitude: 46.770439,
-            longitude: 23.591423,
-        }
-    });
+    const {target, setTarget, alertMarker, setAlertMarker} = useContext(UserDataContext);
+
+    const simulateAlert = () => {
+        //if(target) return;
+        setAlertMarker({
+            coords: {
+                latitude: 46.760439,
+                longitude: 23.591476,
+            }
+        });
+        
+        mapRef.current.animateToRegion({
+            latitude: 46.763090,
+            longitude: 23.591476,
+            latitudeDelta: 0.01,
+            longitudeDelta: 0.01,
+        }, 1000);
+
+        setBillboardActive(true);
+    }
+
+    const navigateToHelpOut = () => {
+        navigation.getParent().navigate('HelpStack', {
+            screen: 'HelpOutScreen',
+        });
+    }
 
     const [alertMarker, setAlertMarker] = useState(null);
 
@@ -92,13 +117,6 @@ export default function MapScreen(){
                     latitudeDelta: 0.0922,
                     longitudeDelta: 0.0421,
                 }}
-
-                region={{
-                    latitude: mapCoords.latitude,
-                    longitude: mapCoords.longitude,
-                    latitudeDelta: mapCoords.latitudeDelta,
-                    longitudeDelta: mapCoords.longitudeDelta,
-                }}
             
             >
                 <MapViewDirections 
@@ -107,7 +125,10 @@ export default function MapScreen(){
                         latitude: location?.coords.latitude,
                         longitude: location?.coords.longitude,
                     }}
-                    destination={{latitude: 46.770439, longitude: 23.591423}}
+                    destination={{
+                        latitude: target?.coords.latitude,
+                        longitude: target?.coords.longitude,
+                    }}
                     strokeWidth={3}
                     strokeColor="#A1679E"
                     mode='WALKING'
@@ -130,7 +151,7 @@ export default function MapScreen(){
                 </MapMarker>
 
                 <MapMarker 
-                    coordinate={targetLocation?.coords}
+                    coordinate={target?.coords}
                     title='SOS'
                     description='Help me!'
                     style={{
@@ -162,7 +183,19 @@ export default function MapScreen(){
 
             </MapView>
 
-            {billboardActive && <Billboard onPress={toggleBillboard}/>}
+            {
+                billboardActive && 
+                <Billboard 
+                    onPress={toggleBillboard} 
+                    onMainPress={navigateToHelpOut}
+                    target={target}
+                />
+            }
+
+            <TouchableOpacity 
+                className='absolute top-48 right-4 rounded-full w-10 h-10 bg-[#fff]'
+                onPress={simulateAlert}
+            />
 
             <TouchableOpacity 
                 className='absolute top-48 right-4 rounded-full w-10 h-10 bg-[#fff]'

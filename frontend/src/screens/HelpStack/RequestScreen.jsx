@@ -37,11 +37,12 @@ export default function RequestScreen() {
             
             
             <GenericButton
-                buttonText = "Search for Help"
+                buttonText = "Community Help"
                 textColor={'black'}
                 backgroundColor={'#2DC8EA'}
                 borderColor={'#2DC8EA'}
                 textSize={20}
+                onPress = {() => navigation.navigate('ArrivingHelpScreen')}
             />  
             
             
