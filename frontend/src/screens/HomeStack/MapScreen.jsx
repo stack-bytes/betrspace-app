@@ -9,6 +9,7 @@ import * as Location from 'expo-location';
 import RunIcon from "../../../assets/icons/run-icon.svg";
 import UserIcon from "../../../assets/icons/user-icon.svg";
 import AlertIcon from "../../../assets/icons/alert-icon.svg";
+
 import { useNavigation } from '@react-navigation/native';
 
 import { Billboard } from '../../components/Buttons/Billboard';
@@ -18,6 +19,7 @@ import { UserDataContext } from '../../contexts/UserDataContext';
 export default function MapScreen(){
 
     const mapRef = useRef(null);
+
     const navigation = useNavigation();
 
     const [billboardActive, setBillboardActive] = useState(true);
@@ -180,6 +182,11 @@ export default function MapScreen(){
             <TouchableOpacity 
                 className='absolute top-96 right-4 rounded-full w-10 h-10 bg-[#fff]'
                 onPress={toggleArrivingHelp}
+            />
+
+            <TouchableOpacity 
+                className='absolute top-48 right-4 rounded-full w-10 h-10 bg-[#fff]'
+                onPress={simulateAlert}
             />
 
         </View>
