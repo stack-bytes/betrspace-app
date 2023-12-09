@@ -8,4 +8,5 @@ router.post('/createUser', controller.creatrUser);
 router.get("/getUserLocaton", controller.getUserLocation)
 
 
+
 module.exports = router;

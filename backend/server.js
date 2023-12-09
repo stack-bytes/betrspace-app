@@ -22,5 +22,4 @@ app.listen(EXPRESS_PORT, async () => {
     console.clear();
     console.log(`🎉 Server running on port ${EXPRESS_PORT} - ${SERVER_URL}:${EXPRESS_PORT} 🎉`);
     await manageConnection.openConnection();
-    await generateFakeLocations(30)
 });

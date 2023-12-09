@@ -1,9 +1,9 @@
 const { Router } = require('express');
 const router = Router();
 
-//const eventsApi = require('./routes/eventsRoutes.js');
+const locationApi = require('./routes/locationRoute');
 
-//router.use('/awards', awardsApi);
+router.use('/location', locationApi);
 
 
 module.exports = router;
