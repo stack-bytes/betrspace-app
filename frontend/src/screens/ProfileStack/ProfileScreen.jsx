@@ -3,7 +3,7 @@ import UserProfilePicComponent from '../../components/UserProfilePicComponent';
 import { GenericButton } from "../../components/Buttons/GenericButton";
 import Separator from "../../components/Separator";
 import { useNavigation } from "@react-navigation/native";
-import { useContext } from "react";https://github.com/stack-bytes/betrspace-app/pull/36/conflicts
+import { useContext } from "react";
 import { UserDataContext } from "../../contexts/UserDataContext";
 
 const ProfileScreen = () => {

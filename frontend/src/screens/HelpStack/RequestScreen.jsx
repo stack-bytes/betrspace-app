@@ -10,8 +10,6 @@ import {GenericInput} from "../../components/Buttons/GenericInput"
 import { UserDataContext } from '../../contexts/UserDataContext';
 import io from 'socket.io-client';
 import {SERVER_IP} from "../../../server-config.json";
-import { UserDataContext } from '../../contexts/UserDataContext';
-
 
 const RequestScreen = () => {
     const [text, setText] = useState('');

@@ -10,7 +10,7 @@ export const UserDataContext = createContext();
 export const UserDataProvider = ({children}) => {
 
     const [currentSocket, setCurrentSocket] = useState(null);
-    const serverSocketIp = 'http://172.20.10.6:5000'
+    const serverSocketIp = 'http://192.168.35.111:5000'
 
     const [target, setTarget] = useState(
         /*userId: '6573da517e0b1dcd1f0e843e',
@@ -27,7 +27,7 @@ export const UserDataProvider = ({children}) => {
     const [alertMarker, setAlertMarker] = useState(null);
 
     const [user, setUser] = useState({
-        userId: '6573da517e0b1dcd1f0e843d',
+        userId: '6573da517e0b1dcd1f0e843e',
         photo: 'https://doctorat.utcluj.ro/images/utcn-logo.png',
         coords: {
             latitude: 46.770439,
