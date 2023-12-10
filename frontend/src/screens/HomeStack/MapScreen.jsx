@@ -28,13 +28,14 @@ export default function MapScreen(){
 
     const toggleBillboard = () => {
         setBillboardActive(!billboardActive);
+        console.log('toggle_billboard');
     }
 
     const toggleArrivingHelp = () => {
         setArrivingHelp(!arrivingHelp);
     }
 
-    const {target, setTarget, alertMarker, setAlertMarker, user} = useContext(UserDataContext);
+    const {target, setTarget, alertMarker, setAlertMarker, user, latestSos} = useContext(UserDataContext);
 
     const simulateAlert = () => {
         //if(target) return;
@@ -52,7 +53,7 @@ export default function MapScreen(){
             longitudeDelta: 0.01,
         }, 1000);
 
-        setBillboardActive(true);
+        toggleBillboard();
     }
 
     const navigateToHelpOut = () => {
@@ -60,6 +61,32 @@ export default function MapScreen(){
             screen: 'HelpOutScreen',
         });
     }
+
+    useEffect(() => {
+        //Receive SOS
+        if(!latestSos) return;
+
+        console.log('RECEIVED SOS', latestSos);
+        
+        setAlertMarker({
+            coords: {
+                latitude: latestSos.location.latitude,
+                longitude: latestSos.location.longitude,
+            },
+        });
+
+        console.log(alertMarker);
+
+        mapRef.current.animateToRegion({
+            latitude: String(Number(latestSos.location.latitude) + 0.0025),
+            longitude: latestSos.location.longitude,
+            latitudeDelta: 0.01,
+            longitudeDelta: 0.01,
+        }, 1000);
+
+        setBillboardActive(true);
+
+    },[latestSos])
 
     const isFocused = useIsFocused();
 
@@ -142,6 +169,7 @@ export default function MapScreen(){
                             width: 50,
                             height: 50,
                         }}
+                        onPress={toggleBillboard}
                     >
                         <View className='w-full h-full bg-[#fff] rounded-full justify-center items-center'>
                             <AlertIcon width='60%' height='100%' fill='#A1679E'/>
@@ -156,7 +184,10 @@ export default function MapScreen(){
                 <Billboard 
                     onPress={toggleBillboard} 
                     onMainPress={navigateToHelpOut}
-                    target={target}
+                    target={{
+                        username: 'test',
+                        distance: '4',
+                    }}
                 />
             }
 

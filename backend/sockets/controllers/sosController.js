@@ -1,6 +1,7 @@
 const SosRequest = require("../../models/sos-model")
 
 const createNewSosAlert = async (socket,params) => {
+    console.log("Trying to create new sos alert");
     const newSosRequest = {
         location: {
             latitude: String(params.latitude),
@@ -21,15 +22,18 @@ const createNewSosAlert = async (socket,params) => {
     try{
         SosRequest.create(newSosRequest);
         socket.emit('createdSosAlert', newSosRequest)
+        console.log("Succesfully created sos alert! ✅");
     } catch(e) {console.log("could not create sos")}
 }
 
 const getRealTimeSos = async (socket) => {
+    console.log('trying to get latest sos');
     try{
         const changeStream = SosRequest.watch();
 
         changeStream.on('change', (change) => {
-            socket.emit('latestSos', change)
+            socket.emit('latestSos', change.fullDocument)
+            console.log('latest sos sent! ✅')
         })
     } catch (e) {console.log('could not get latest: ', e)}
 } 

@@ -2,7 +2,7 @@ import {View, Text, TouchableOpacity, TextInput, StyleSheet} from 'react-native'
 import AlertIcon from '../../../assets/icons/alert-icon.svg';
 import ArrowIcon from '../../../assets/icons/arrow-icon.svg';
 import {GenericButton} from '../../components/Buttons/GenericButton';
-import {useState} from 'react';
+import {useContext, useState} from 'react';
 import { useNavigation } from '@react-navigation/native';
 import * as speech from 'expo-speech';
 
@@ -10,14 +10,16 @@ import {GenericInput} from "../../components/Buttons/GenericInput"
 
 import React, { useEffect } from 'react';
 import io from 'socket.io-client';
-
+import {SERVER_IP} from "../../../server-config.json";
+import { UserDataContext } from '../../contexts/UserDataContext';
 
 
 export default function RequestScreen() {
     const [text, setText] = useState('');
     
     const navigation = useNavigation();
-    const serverUrl = 'http://172.20.10.6:5000';
+    const { user } = useContext(UserDataContext);
+    const serverUrl = 'http://'+SERVER_IP+':5000';
 
     const sendSos = () => {
         const socket = io(serverUrl, {
@@ -25,12 +27,12 @@ export default function RequestScreen() {
         });
     
         try {
-            socket.on("connect", () => {
+            socket.on("connect", async () => {
                 socket.emit('createSos', {
-                    latitude: 1234,
-                    longitude: 1234,
+                    latitude: await user?.coords.latitude + 0.01,
+                    longitude: await user?.coords.longitude,
                     description: "lorem impsum",
-                    personInNeedId: "q6q76498716487752"
+                    personInNeedId: user.userId,
                 });
                 socket.disconnect();
             });

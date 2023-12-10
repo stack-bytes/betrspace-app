@@ -33,6 +33,8 @@ export const UserDataProvider = ({children}) => {
             longitude: 23.591423,
         },
     });
+
+    const [latestSos, setLatestSos] = useState(null);
     
     const setTargetLocation = (coords) => {
         console.log("test",coords)
@@ -49,6 +51,7 @@ export const UserDataProvider = ({children}) => {
             coords: coords,
         });
     }
+
 
     useEffect(() => {
         (async () => {
@@ -93,7 +96,13 @@ export const UserDataProvider = ({children}) => {
         setCurrentSocket(socket);
         socket.io.on("open", () => {
             console.warn("connected to socket");
+            socket.emit("getLatest");
         });
+
+        socket.on("latestSos", (data) => {
+            console.warn("latestSos", data);
+            setLatestSos(data);
+        })
     
         socket.on("userLocationUpdate", ({userId, data}) => {
 
@@ -143,6 +152,8 @@ export const UserDataProvider = ({children}) => {
             setUser,
             alertMarker,
             setAlertMarker,
+            latestSos,
+            setLatestSos,
         }}>
             {children}
         </UserDataContext.Provider>
