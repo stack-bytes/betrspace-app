@@ -35,7 +35,7 @@ export default function MapScreen(){
         setArrivingHelp(!arrivingHelp);
     }
 
-    const {target, setTarget, alertMarker, setAlertMarker, user, latestSos} = useContext(UserDataContext);
+    const {target, setTarget, alertMarker, setAlertMarker, user, latestSos, myLatestRequest} = useContext(UserDataContext);
 
     const simulateAlert = () => {
         //if(target) return;
@@ -64,7 +64,11 @@ export default function MapScreen(){
 
     useEffect(() => {
         //Receive SOS
+        console.log('LATEST SOS', latestSos?.personInNeedId, user.userId);
         if(!latestSos || target) return;
+
+        //If the sender is the user, ignore
+        if(latestSos?.personInNeedId===user.userId) return;
 
         console.log('RECEIVED SOS', latestSos);
         
@@ -215,7 +219,7 @@ export default function MapScreen(){
             />
 
             {
-                target && 
+                target && latestSos?.helperAccepted == user.userId && 
                 <View className='absolute top-12 w-full justify-center'>
                     <Text className='text-2xl text-[#fff] font-semibold text-center'>
                         Currently helping
@@ -224,6 +228,14 @@ export default function MapScreen(){
                         {target?.username}
                     </Text>
                 </View>
+            }
+
+            {
+                latestSos?.personInNeedId == user.userId &&
+                <ArrivingHelpComponent 
+                    userName='test'
+                    arrivalTime={4}
+                />
             }
 
         </View>

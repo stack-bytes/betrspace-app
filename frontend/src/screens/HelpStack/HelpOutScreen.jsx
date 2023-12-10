@@ -18,7 +18,7 @@ export default function HelpOutScreen(){
 
     const [pending, setPending] = useState(false);
 
-    const {target, alertMarker, setAlertMarker, setTargetLocation, setTarget, latestSos, user} = useContext(UserDataContext);
+    const {target, alertMarker, setAlertMarker, setTargetLocation, setTarget, latestSos, user, setMyLatestRequest} = useContext(UserDataContext);
 
     const setTargetAlert =  () => {
 
@@ -47,7 +47,7 @@ export default function HelpOutScreen(){
             navigation.getParent().navigate('HomeStack', {
                 screen: 'MapScreen',
             });
-    
+
             setAlertMarker(null);
         })
 

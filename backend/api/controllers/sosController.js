@@ -16,4 +16,18 @@ const addColaborator = async (req, res) => {
     }
 }
 
-module.exports = {addColaborator}
+const deleteSos = async (req, res) => {
+    console.log("Deleting SOS", req.query.deletedSosId);
+    const deletedSosId = req.query.deletedSosId;
+    try{
+        const deletedDoc = await SosRequest.findByIdAndDelete(deletedSosId);
+        if(!deletedDoc){res.status(500).json({message:"Could not delete document"}); return;}
+        console.log("SOS deleted succesfully")
+        res.status(200).json({message: "Document delted succesfully"})
+
+    } catch (e){
+        res.status(500).json({message:'Could not delete sos'})
+    }
+}
+
+module.exports = {addColaborator, deleteSos}
