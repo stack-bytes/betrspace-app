@@ -31,9 +31,10 @@ const getRealTimeSos = async (socket) => {
     try{
         const changeStream = SosRequest.watch();
 
-        changeStream.on('change', (change) => {
-            socket.emit('latestSos', change.fullDocument)
-            console.log('latest sos sent! ✅')
+        changeStream.on('change', async (change) => {
+            const sosDoc = await SosRequest.findById(change.documentKey._id);
+            socket.emit('latestSos', sosDoc)
+            console.log('latest sos sent! ✅', sosDoc);
         })
     } catch (e) {console.log('could not get latest: ', e)}
 } 
