@@ -12,12 +12,13 @@ import { useContext, useState } from "react";
 import { UserDataContext } from "../../contexts/UserDataContext";
 import { GenericButton } from "../../components/Buttons/GenericButton";
 
+import {SERVER_IP} from "../../../server-config.json";
 export default function HelpOutScreen(){
     const navigation = useNavigation();
 
     const [pending, setPending] = useState(false);
 
-    const {target, alertMarker, setAlertMarker, setTargetLocation, setTarget} = useContext(UserDataContext);
+    const {target, alertMarker, setAlertMarker, setTargetLocation, setTarget, latestSos, user} = useContext(UserDataContext);
 
     const setTargetAlert =  () => {
 
@@ -38,6 +39,10 @@ export default function HelpOutScreen(){
                 request: 'I need help!',
                 coords: alertMarker.coords,
             })
+
+            fetch(`http://${SERVER_IP}:4949/api/sos/addColaborator?colabId=${user.userId}&sosId=${latestSos._id}`, {
+                method: 'POST',
+            }).then(res => res.json()).then(res => console.warn(res));
     
             navigation.getParent().navigate('HomeStack', {
                 screen: 'MapScreen',
@@ -50,6 +55,11 @@ export default function HelpOutScreen(){
 
     const cancelHelpAction = () => {
         setTarget(null);
+
+        fetch(`http://${SERVER_IP}:4949/api/sos/addColaborator?colabId=null&sosId=${latestSos._id}`, {
+            method: 'POST',
+        }).then(res => res.json()).then(res => console.warn(res));
+
         navigation.getParent().navigate('HomeStack', {
             screen: 'MapScreen',
         });
