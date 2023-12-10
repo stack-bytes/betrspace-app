@@ -36,7 +36,6 @@ export const UserDataProvider = ({children}) => {
     const [latestSos, setLatestSos] = useState(null)
     
     const setTargetLocation = (coords) => {
-        console.log("test",coords)
         setTarget({
             ...target,
             coords: coords,
@@ -107,9 +106,6 @@ export const UserDataProvider = ({children}) => {
       useEffect(() => {
         //Send user location when user changes
         if(!currentSocket) return;
-
-        console.log("user changed",user);
-        console.log("currentSocket",currentSocket);
 
         currentSocket.emit("sendLocation", {
             userId: user.userId,
