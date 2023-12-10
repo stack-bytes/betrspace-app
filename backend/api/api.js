@@ -3,7 +3,7 @@ const router = Router();
 
 const locationApi = require('./routes/locationRoute');
 const userApi = require('./routes/userRoute')
-const sosApi = require('./controllers/sosController')
+const sosApi = require('./routes/sosRoute')
 
 
 router.use('/location', locationApi);
