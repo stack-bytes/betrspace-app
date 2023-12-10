@@ -1,8 +1,9 @@
 # BetrSpace Mobile App 🚀
+![BetrSpace Logo](https://github.com/stack-bytes/betrspace-app/assets/147537737/b1ee846d-ec0f-416b-853c-6b542b0c96b5)
 
 ## Overview
 
-Welcome to BetrSpace, where social interactions become seamless and engaging! 🌟 This document gives you a deep dive into our project, emphasizing the technologies we've carefully chosen and the reasons behind our selections.
+Welcome to BetrSpace, where social interactions become seamless and engaging! 🌟 This document provides a deep dive into our project, emphasizing the technologies we've carefully chosen and the reasons behind our selections.
 
 ## Technologies Used 🛠️
 
@@ -24,11 +25,4 @@ Our tech choices are driven by a commitment to enhancing user experiences and fo
 
 ## Key Features 🔑
 
-- **Real-time Communication**: Harnessing the power of sockets for instant, real-time interactions 🚀📡
-- **Cloud-Based MongoDB**: Ensuring scalability and accessibility for a global user base ☁️🌐
-- **Intuitive UI/UX**: Crafting a visually appealing and user-friendly interface for a delightful experience 🎨😊
-
-## Get Involved! 🤝
-
-We invite you to join us on this exciting journey! Whether you're a developer, designer, or an enthusiastic user, BetrSpace welcomes everyone. Contribute, provide feedback, and let's build a better space together! 🌈👥
-
+- **Real-time Communication**: Harnessing the power of sockets
