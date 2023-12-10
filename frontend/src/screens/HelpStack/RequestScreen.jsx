@@ -18,7 +18,7 @@ export default function RequestScreen() {
     const [text, setText] = useState('');
     
     const navigation = useNavigation();
-    const { user } = useContext(UserDataContext);
+    const { user, setMyLatestRequest } = useContext(UserDataContext);
     const serverUrl = 'http://'+SERVER_IP+':5000';
 
     const sendSos = () => {
@@ -31,7 +31,7 @@ export default function RequestScreen() {
                 socket.emit('createSos', {
                     latitude: await user?.coords.latitude + 0.01,
                     longitude: await user?.coords.longitude,
-                    description: "lorem impsum",
+                    description: text,
                     personInNeedId: user.userId,
                 });
                 socket.disconnect();
@@ -59,7 +59,9 @@ export default function RequestScreen() {
             <Text className = 'text-[35px] pb-8'>Request Help</Text>
 
             <View className = 'mb-44 h-14 w-[85%] items-center justify-center rounded-[25px] bg-slate-950/[.15]'>
-                <GenericInput></GenericInput>
+                <GenericInput 
+                    changeText={(text) => setText(text)}
+                />
             </View>
              
             
