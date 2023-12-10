@@ -204,19 +204,7 @@ export default function MapScreen(){
                 />
             }
 
-            <TouchableOpacity 
-                className='absolute top-48 right-4 rounded-full w-10 h-10 bg-[#fff]'
-                onPress={simulateAlert}
-            />
-            <TouchableOpacity 
-                className='absolute top-96 right-4 rounded-full w-10 h-10 bg-[#fff]'
-                onPress={toggleArrivingHelp}
-            />
-
-            <TouchableOpacity 
-                className='absolute top-48 right-4 rounded-full w-10 h-10 bg-[#fff]'
-                onPress={simulateAlert}
-            />
+            
 
             {
                 target && latestSos?.helperAccepted == user.userId && 

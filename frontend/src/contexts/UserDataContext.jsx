@@ -85,7 +85,7 @@ export const UserDataProvider = ({children}) => {
                 coords: location.coords,
             });
 
-            console.warn('Set user data', user);
+            //console.warn('Set user data', user);
 
         })();
     },[]);
@@ -97,12 +97,12 @@ export const UserDataProvider = ({children}) => {
         });
         setCurrentSocket(socket);
         socket.io.on("open", () => {
-            console.warn("connected to socket");
+            //console.warn("connected to socket");
             socket.emit("getLatest");
         });
 
         socket.on("latestSos", (data) => {
-            console.warn("latestSos", data);
+            //console.warn("latestSos", data);
             //if(latestSos && data._id != latestSos._id) return;
             setLatestSos(data);
         })
@@ -111,7 +111,7 @@ export const UserDataProvider = ({children}) => {
 
             setTargetLocation(data.location);
 
-            console.warn('Updated target location', data.location);
+            //console.warn('Updated target location', data.location);
 
         });
     
