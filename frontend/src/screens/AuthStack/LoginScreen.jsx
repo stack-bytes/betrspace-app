@@ -7,8 +7,10 @@ import appLogo from './../../../assets/icons/appLogo.png';
 import apple from './../../../assets/icons/apple.svg';
 import google from './../../../assets/icons/google.svg';
 import x from './../../../assets/icons/x.svg';
+import { useNavigation } from "@react-navigation/native";
 
 const LoginScreen = () => {
+    const navigation = useNavigation();
     return (
         <View style={{ flex: 1, justifyContent: 'start', alignItems: 'center', padding: 0, }}>
             <Image source={appLogo} style={{ width: 250, height: 250 , marginTop: 60 }} />
@@ -19,6 +21,7 @@ const LoginScreen = () => {
             <GenericButton 
                 buttonText={"Login"} backgroundColor={"#FAFAFA"} borderColor={"#FAFAFA"} textColor={"#1A1A1A"}
                 width={200}
+                onPress={()=>navigation.navigate("MainStack")}
             />
             <Text className="text-lg font-medium mt-8">- or login with -</Text>
             <View className = 'flex-row items-center justify-center '>
@@ -43,8 +46,8 @@ const LoginScreen = () => {
             /></View>
             </View>
 
-            <Text className="text-lg font-medium mt-8 ">Don't have an account? <TouchableOpacity 
-            
+            <Text className="text-lg font-medium mt-5 ">Don't have an account? <TouchableOpacity 
+            onPress={()=>navigation.navigate("RegisterScreen")}
             ><Text className="font-bold text-primary text-lg">Sign up</Text></TouchableOpacity></Text>
         </View>
     );
