@@ -1,4 +1,4 @@
-import {View, Text, TouchableOpacity} from 'react-native';
+import {View, Text, TouchableOpacity, StyleSheet} from 'react-native';
 import MapView, { MapMarker, PROVIDER_GOOGLE } from 'react-native-maps';
 import MapViewDirections from 'react-native-maps-directions';
 import {GOOGLE_API_KEY} from '@env';
@@ -215,13 +215,13 @@ export default function MapScreen(){
             />
 
             {
-                target && 
-                <View className='absolute top-12 w-full justify-center'>
-                    <Text className='text-2xl text-[#fff] font-semibold text-center'>
-                        Currently helping
+                true && 
+                <View style = {styles.shadow} className='absolute top-20 w-[80%] h-[10%] bg-[#FFFF] justify-center rounded-3xl'>
+                    <Text className='text-[20px] text-black font-semibold text-center'>
+                        Currently helping:
                     </Text>
-                    <Text className='text-3xl text-[#2DC8EA] font-semibold text-center'>
-                        {target?.username}
+                    <Text className='text-2xl text-[#2DC8EA] font-semibold text-center'>
+                        {target?.username ? target?.username : '....'}
                     </Text>
                 </View>
             }
@@ -229,3 +229,13 @@ export default function MapScreen(){
         </View>
     )
 }
+
+const styles = StyleSheet.create({
+    shadow: {
+        shadowColor: '#000000',
+        shadowOffset: { width: 4, height: 6 },
+        shadowOpacity: 0.2,
+        shadowRadius: 4,
+
+    }
+})
