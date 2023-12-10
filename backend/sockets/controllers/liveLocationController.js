@@ -7,13 +7,13 @@ const sendLiveLocation = async (params) =>{
     const longitude = params.longitude;
     
     try{
-        const sentUserLocation = User.findByIdAndUpdate(userId, {$set: {location:{
+        const sentUserLocation = await User.findByIdAndUpdate(userId, {$set: {location:{
             latitude: latitude,
             longitude:longitude,
         }}}, { new: true })
 
         if (sentUserLocation) {
-            console.log('Document updated for user id:', userId);
+            console.log('Location updated for user:', sentUserLocation);
           } else {
             console.log('Document not found');
           }
@@ -37,7 +37,9 @@ const getLiveLocation = async (params, socket) => {
 
         changeStream.on('init', (change) => {
             if(change.documentKey._id == userId){
-                socket.emit('userLocationUpdate', { userId,  change});
+                const foundUser = await User.findById(userId);
+                console.log('userLocationUpdate', { userId })
+                socket.emit('userLocationUpdate', { userId,  data: foundUser});
             }
         })
 

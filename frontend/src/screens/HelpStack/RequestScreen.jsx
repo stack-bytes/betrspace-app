@@ -1,9 +1,10 @@
-import {View, Text, TouchableOpacity, TextInput} from 'react-native';  
+import {View, Text, TouchableOpacity, TextInput, StyleSheet} from 'react-native';  
 import AlertIcon from '../../../assets/icons/alert-icon.svg';
 import ArrowIcon from '../../../assets/icons/arrow-icon.svg';
 import {GenericButton} from '../../components/Buttons/GenericButton';
 import React, {useState, useContext} from 'react';
 import { useNavigation } from '@react-navigation/native';
+import * as speech from 'expo-speech';
 import {GenericInput} from "../../components/Buttons/GenericInput"
 
 import { UserDataContext } from '../../contexts/UserDataContext';
@@ -39,6 +40,8 @@ const RequestScreen = () => {
     }
 
 
+    
+
     return (
         <View className = 'pt-32 flex items-center w-full h-full'>
             <TouchableOpacity 
@@ -56,7 +59,7 @@ const RequestScreen = () => {
             <View className = 'mb-44 h-14 w-[85%] items-center justify-center rounded-[25px] bg-slate-950/[.15]'>
                 <GenericInput setFieldToVar={setText}></GenericInput>
             </View>
-            
+             
             
             <GenericButton
                 buttonText = "Community Help"
@@ -70,11 +73,18 @@ const RequestScreen = () => {
                 }
             />  
             
-            
-            
-
         </View>
     )
 }
+
+const styles = StyleSheet.create({
+    shadow: {
+        shadowColor: '#000000',
+        shadowOffset: { width: 4, height: 6 },
+        shadowOpacity: 0.2,
+        shadowRadius: 4,
+    }
+})
+
 
 export default RequestScreen

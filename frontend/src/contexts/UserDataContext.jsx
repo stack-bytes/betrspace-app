@@ -25,7 +25,13 @@ export const UserDataProvider = ({children}) => {
 
     const [alertMarker, setAlertMarker] = useState(null);
 
-    const [user, setUser] = useState(null);
+    const [user, setUser] = useState({
+        userId: '6573da517e0b1dcd1f0e843d',
+        coords: {
+            latitude: 46.770439,
+            longitude: 23.591423,
+        },
+    });
 
     const [latestSos, setLatestSos] = useState(null)
     
