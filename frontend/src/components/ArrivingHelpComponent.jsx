@@ -7,6 +7,8 @@ import { SERVER_IP } from '../../server-config.json';
 import { useContext } from 'react';
 import { UserDataContext } from '../contexts/UserDataContext';
 
+
+
 export default function ArrivingHelpComponent({userName, arrivalTime}) {
     const speak = () => {
         const thingToSay  = `${userName} is arriving in ${arrivalTime} minutes`;
@@ -18,6 +20,7 @@ export default function ArrivingHelpComponent({userName, arrivalTime}) {
     // })
 
     const cancelRequest = () => {
+        if(!latestSos) return console.warn("No latestSos");
         fetch(`http://${SERVER_IP}:4949/api/sos/removeSos?deletedSosId=${latestSos._id}`, {
             method: 'DELETE',
         
@@ -27,6 +30,7 @@ export default function ArrivingHelpComponent({userName, arrivalTime}) {
             if(data.success){
                 setLatestSos(null);
                 setTarget(null);
+                console.log("Request cancelled");
             }
         })
     }

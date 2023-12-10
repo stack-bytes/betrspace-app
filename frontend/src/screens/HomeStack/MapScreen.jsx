@@ -64,11 +64,11 @@ export default function MapScreen(){
 
     useEffect(() => {
         //Receive SOS
-        console.log('LATEST SOS', latestSos?.personInNeedId, user.userId);
+        console.log('LATEST SOS', latestSos?.helperAccepted);
         if(!latestSos || target) return;
 
         //If the sender is the user, ignore
-        if(latestSos?.personInNeedId===user.userId) return;
+        if(latestSos?.personInNeedId===user.userId) return console.log('SAME USER');
 
         console.log('RECEIVED SOS', latestSos);
         
@@ -231,11 +231,12 @@ export default function MapScreen(){
             }
 
             {
-                latestSos?.personInNeedId == user.userId &&
-                <ArrivingHelpComponent 
-                    userName='test'
-                    arrivalTime={4}
-                />
+                latestSos && latestSos.helperAccepted == null &&
+                <View className='w-[80%] h-32 bg-bgr rounded-xl absolute top-16 justify-center'>
+                    <Text className='text-2xl text-primary font-bold text-center px-10'>
+                        Waiting for someone to accept your SOS...
+                    </Text>
+                </View>
             }
 
         </View>
