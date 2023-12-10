@@ -17,7 +17,7 @@ export default function ArrivingHelpScreen() {
 
     const cancelRequest = () => {
         if(!latestSos) return console.warn("No latestSos");
-        console.warn("Printed out", latestSos);
+        //console.warn("Printed out", latestSos);
         fetch(`http://${SERVER_IP}:4949/api/sos/removeSos?deletedSosId=${latestSos._id}`, {
             method: 'DELETE',
         

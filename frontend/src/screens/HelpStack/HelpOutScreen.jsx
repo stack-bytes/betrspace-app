@@ -42,7 +42,7 @@ export default function HelpOutScreen(){
 
             fetch(`http://${SERVER_IP}:4949/api/sos/addColaborator?colabId=${user.userId}&sosId=${latestSos._id}`, {
                 method: 'POST',
-            }).then(res => res.json()).then(res => console.warn(res));
+            }).then(res => res.json()).then(res => console.log(res));
     
             navigation.getParent().navigate('HomeStack', {
                 screen: 'MapScreen',
@@ -60,7 +60,7 @@ export default function HelpOutScreen(){
 
         fetch(`http://${SERVER_IP}:4949/api/sos/addColaborator?colabId=null&sosId=${latestSos._id}`, {
             method: 'POST',
-        }).then(res => res.json()).then(res => console.warn(res));
+        }).then(res => res.json()).then(res => console.log(res));
 
         navigation.getParent().navigate('HomeStack', {
             screen: 'MapScreen',
