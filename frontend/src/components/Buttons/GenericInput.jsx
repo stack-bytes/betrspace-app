@@ -1,9 +1,12 @@
 import { StyleSheet, TextInput, View } from 'react-native';
 
 
-export const GenericInput = ({ placeholder, password }) => {
+export const GenericInput = ({ placeholder, password, setFieldToVar }) => {
+  const handleTextChange = (e) => {
+    setFieldToVar(e);
+  }
   return (
-    <TextInput style={styles.container} placeholder={placeholder} placeholderTextColor={"#1A1A1A44"} 
+    <TextInput onChangeText={handleTextChange} style={styles.container} placeholder={placeholder} placeholderTextColor={"#1A1A1A44"} 
     secureTextEntry={`${password ? true : false}`}></TextInput>    
   );
 };

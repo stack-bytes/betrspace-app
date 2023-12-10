@@ -3,7 +3,7 @@ const { ObjectId } = require('mongodb');
 
 const sendLiveLocation = async (params) =>{
     const userId = params.userId;
-    const latitude = params.latitud;
+    const latitude = params.latitude;
     const longitude = params.longitude;
     
     try{
@@ -12,8 +12,8 @@ const sendLiveLocation = async (params) =>{
             longitude:longitude,
         }}}, { new: true })
 
-        if (updatedDocument) {
-            console.log('Document updated:', sentUserLocation);
+        if (sentUserLocation) {
+            console.log('Document updated for user id:', userId);
           } else {
             console.log('Document not found');
           }
@@ -41,10 +41,12 @@ const getLiveLocation = async (params, socket) => {
             }
         })
 
-        changeStream.on('change', (change) => {
+        changeStream.on('change', async (change) => {
             if(change.documentKey._id == userId){
+
+                const foundUser = await User.findById(userId);
                 console.log('userLocationUpdate', { userId,  change:"test"});
-                socket.emit('userLocationUpdate', { userId,  change});
+                socket.emit('userLocationUpdate', { userId,  data: foundUser});
             }
         });
 

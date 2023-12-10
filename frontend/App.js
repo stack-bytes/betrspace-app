@@ -1,6 +1,6 @@
 import { createStackNavigator } from '@react-navigation/stack';
 import { NavigationContainer } from '@react-navigation/native';
-import {  useFonts, Nunito_300Light, Nunito_500Medium, Nunito_700Bold, Nunito_600SemiBold, Nunito_800ExtraBold, Nunito_900Black} from '@expo-google-fonts/nunito';
+import {  useFonts, Nunito_300Light, Nunito_500Medium, Nunito_700Bold, Nunito_600SemiBold, Nunito_800ExtraBold} from '@expo-google-fonts/nunito';
 import MainStack from './src/navigation/MainStack'
 
 import { UserDataProvider } from './src/contexts/UserDataContext';
@@ -16,7 +16,6 @@ export default function App() {
     Nunito_500Medium,
     Nunito_600SemiBold,
     Nunito_800ExtraBold,
-    Nunito_900Black,
   });
   if (!fontsLoaded) {
     return null;
