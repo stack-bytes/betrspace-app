@@ -25,7 +25,6 @@ const deleteSos = async (req, res) => {
         if(!deletedDoc){res.status(500).json({message:"Could not delete document"}); return;}
         console.log("SOS deleted succesfully")
         res.status(200).json({message: "Document delted succesfully"})
-
     } catch (e){
         res.status(500).json({message:'Could not delete sos'})
     }
