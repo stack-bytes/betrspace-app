@@ -35,6 +35,8 @@ export const UserDataProvider = ({children}) => {
     });
 
     const [latestSos, setLatestSos] = useState(null);
+
+    const [myLatestRequest, setMyLatestRequest] = useState(null);
     
     const setTargetLocation = (coords) => {
         console.log("test",coords)
@@ -101,6 +103,7 @@ export const UserDataProvider = ({children}) => {
 
         socket.on("latestSos", (data) => {
             console.warn("latestSos", data);
+            if(latestSos && data._id != latestSos._id) return;
             setLatestSos(data);
         })
     
@@ -154,6 +157,8 @@ export const UserDataProvider = ({children}) => {
             setAlertMarker,
             latestSos,
             setLatestSos,
+            myLatestRequest,
+            setMyLatestRequest,
         }}>
             {children}
         </UserDataContext.Provider>

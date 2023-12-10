@@ -18,7 +18,7 @@ export default function RequestScreen() {
     const [text, setText] = useState('');
     
     const navigation = useNavigation();
-    const { user } = useContext(UserDataContext);
+    const { user, setMyLatestRequest } = useContext(UserDataContext);
     const serverUrl = 'http://'+SERVER_IP+':5000';
 
     const sendSos = () => {
