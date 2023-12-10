@@ -33,7 +33,8 @@
     "react-native-svg": "^14.1.0",
     "react-navigation": "^5.0.0",
     "socket.io-client": "^4.7.2",
-    "typescript": "^5.1.3"
+    "typescript": "^5.1.3",
+    "expo-speech": "~11.3.0"
   },
   "devDependencies": {
     "@babel/core": "^7.20.0",
