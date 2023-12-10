@@ -103,7 +103,7 @@ export const UserDataProvider = ({children}) => {
 
         socket.on("latestSos", (data) => {
             console.warn("latestSos", data);
-            if(latestSos && data._id != latestSos._id) return;
+            //if(latestSos && data._id != latestSos._id) return;
             setLatestSos(data);
         })
     

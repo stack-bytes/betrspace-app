@@ -27,6 +27,8 @@ export default function ArrivingHelpComponent({userName, arrivalTime}) {
             if(data.success){
                 setLatestSos(null);
                 setTarget(null);
+                console.log("Request cancelled");
+
             }
         })
     }
