@@ -64,7 +64,7 @@ export default function MapScreen(){
 
     useEffect(() => {
         //Receive SOS
-        if(!latestSos) return;
+        if(!latestSos || target) return;
 
         console.log('RECEIVED SOS', latestSos);
         
@@ -161,7 +161,7 @@ export default function MapScreen(){
                 </MapMarker>
 
                 {
-                    alertMarker && 
+                    alertMarker && !target &&
                     <MapMarker 
                         coordinate={alertMarker?.coords}
                         title='Help me!'

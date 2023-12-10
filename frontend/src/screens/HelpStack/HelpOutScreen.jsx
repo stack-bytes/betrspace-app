@@ -54,6 +54,8 @@ export default function HelpOutScreen(){
     }
 
     const cancelHelpAction = () => {
+        if(!latestSos) return;
+        
         setTarget(null);
 
         fetch(`http://${SERVER_IP}:4949/api/sos/addColaborator?colabId=null&sosId=${latestSos._id}`, {
