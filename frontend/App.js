@@ -8,7 +8,6 @@ const Root = createStackNavigator();
 
 import io from 'socket.io-client';
 import { useEffect } from 'react';
-import AuthStack from './src/navigation/stacks/AuthStack';
 
 export default function App() {
 
@@ -27,9 +26,9 @@ export default function App() {
       <NavigationContainer>
         <Root.Navigator
           id="Root"
-          initialRouteName="AuthStack"
+          initialRouteName="MainStack"
         >
-          <Root.Screen name="AuthStack" component={AuthStack} options={{headerShown: false}} />
+          <Root.Screen name="MainStack" component={MainStack} options={{headerShown: false}} />
         </Root.Navigator>
       </NavigationContainer>
     </UserDataProvider>
