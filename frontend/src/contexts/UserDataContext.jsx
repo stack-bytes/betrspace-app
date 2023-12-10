@@ -10,6 +10,7 @@ export const UserDataContext = createContext();
 export const UserDataProvider = ({children}) => {
 
     const [currentSocket, setCurrentSocket] = useState(null);
+    const serverSocketIp = 'http://172.20.10.6:5000'
 
     const [target, setTarget] = useState(
         /*userId: '6573da517e0b1dcd1f0e843e',
@@ -37,9 +38,8 @@ export const UserDataProvider = ({children}) => {
     const [latestSos, setLatestSos] = useState(null);
 
     const [myLatestRequest, setMyLatestRequest] = useState(null);
-    
+
     const setTargetLocation = (coords) => {
-        console.log("test",coords)
         setTarget({
             ...target,
             coords: coords,
@@ -92,7 +92,7 @@ export const UserDataProvider = ({children}) => {
 
     useEffect(() => {
     
-        const socket = io("http://192.168.35.111:5000",{
+        const socket = io(serverSocketIp,{
             transports: ['websocket'],
         });
         setCurrentSocket(socket);
@@ -144,7 +144,34 @@ export const UserDataProvider = ({children}) => {
         });
       },[user]);
 
+      useEffect(() => {
+        const socket = io(serverSocketIp, {
+            transports: ['websocket'],
+        });
+        
+        setCurrentSocket(socket)
+        socket.io.on("open", () => {
+            socket.emit('getLatest');
+        });
+        
+        socket.on("latestSos", (change)=> {
+            if(change)
+            {
+                setLatestSos(change.fullDocument);
+            }
+        })
 
+        return () => {
+            socket.io.disconnect();
+        }
+      },[])
+
+      useEffect(()=>{
+        console.warn(latestSos);
+      },[latestSos])
+
+
+ 
 
     return (
         <UserDataContext.Provider value={{

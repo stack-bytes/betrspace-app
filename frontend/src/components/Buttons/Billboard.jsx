@@ -6,7 +6,6 @@ import { Image, Text, TouchableOpacity, View } from 'react-native';
 import { GenericButton } from './GenericButton';
 
 export const Billboard = ({onPress, onMainPress, target}) => {
-    console.log(target);
     return (
         <View className='bg-[#fff] w-[85%] h-96 top-20 z-20 absolute rounded-[30px] shadow-2xl flex items-center justify-center gap-y-2'>
             <TouchableOpacity 

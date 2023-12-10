@@ -16,6 +16,7 @@ const addColaborator = async (req, res) => {
     }
 }
 
+
 const deleteSos = async (req, res) => {
     console.log("Deleting SOS", req.query.deletedSosId);
     const deletedSosId = req.query.deletedSosId;
