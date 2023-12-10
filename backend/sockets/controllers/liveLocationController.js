@@ -35,7 +35,7 @@ const getLiveLocation = async (params, socket) => {
         }
         const changeStream = User.watch();
 
-        changeStream.on('init', (change) => {
+        changeStream.on('init', async (change) => {
             if(change.documentKey._id == userId){
                 const foundUser = await User.findById(userId);
                 console.log('userLocationUpdate', { userId })
