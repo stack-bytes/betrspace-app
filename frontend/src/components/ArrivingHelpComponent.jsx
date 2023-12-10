@@ -2,11 +2,24 @@ import { View, Text, TouchableOpacity } from 'react-native';
 import ProfilePicIcon from '../../assets/icons/profilePic-icon.svg';
 import PhoneIcon from '../../assets/icons/phone-icon.svg';
 import { GenericButton } from './Buttons/GenericButton';
+import * as Speech from 'expo-speech'; 
 
 export default function ArrivingHelpComponent({userName, arrivalTime}) {
+    const speak = () => {
+        const thingToSay  = `${userName} is arriving in ${arrivalTime} minutes`;
+        Speech.speak(thingToSay);
+    }
+    // Speech.getAvailableVoicesAsync().then(voices => {
+    //     console.log(voices);
+    // })
+
     return (
+
         <View className='bg-[#fff] w-[85%] h-64 top-20 z-20 absolute rounded-[30px] shadow-2xl flex items-center gap-y-2'>
             <Text className = 'pb-6 top-4 text-black text-[30px]'>Help is arriving!</Text>
+            
+               { Speech.speak(`${userName} is arriving in ${arrivalTime} minutes`) }
+            
 
             <View className = 'pl-2 flex-row w-full h-[80px]'>
                 <ProfilePicIcon height = '90%'/>
