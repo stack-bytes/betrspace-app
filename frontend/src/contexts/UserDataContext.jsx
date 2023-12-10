@@ -135,7 +135,7 @@ export const UserDataProvider = ({children}) => {
       },[])
 
       useEffect(()=>{
-        console.log(latestSos);
+        console.warn(latestSos);
       },[latestSos])
 
 

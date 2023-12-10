@@ -24,10 +24,10 @@ const RequestScreen = () => {
         
     
         try {
-            socket.on("connect", () => {
+            socket.on("connect", async () => {
                 socket.emit('createSos', {
-                    latitude: user?.coords.latitude,
-                    longitude: user?.coords.longitude,
+                    latitude: user.coords.latitude,
+                    longitude: user.coords.longitude,
                     description: text,
                     personInNeedId: user?.userId
                 });
