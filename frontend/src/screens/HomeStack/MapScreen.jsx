@@ -35,7 +35,7 @@ export default function MapScreen(){
         setArrivingHelp(!arrivingHelp);
     }
 
-    const {target, setTarget, alertMarker, setAlertMarker, user, latestSos} = useContext(UserDataContext);
+    const {target, setTarget, alertMarker, setAlertMarker, user, latestSos, myLatestRequest} = useContext(UserDataContext);
 
     const simulateAlert = () => {
         //if(target) return;
@@ -64,7 +64,11 @@ export default function MapScreen(){
 
     useEffect(() => {
         //Receive SOS
+        console.log('LATEST SOS', latestSos?.helperAccepted);
         if(!latestSos || target) return;
+
+        //If the sender is the user, ignore
+        if(latestSos?.personInNeedId===user.userId) return console.log('SAME USER');
 
         console.log('RECEIVED SOS', latestSos);
         
@@ -215,13 +219,22 @@ export default function MapScreen(){
             />
 
             {
-                true && 
+                target && latestSos?.helperAccepted == user.userId && 
                 <View style = {styles.shadow} className='absolute top-20 w-[80%] h-[10%] bg-[#FFFF] justify-center rounded-3xl'>
                     <Text className='text-[20px] text-black font-semibold text-center'>
                         Currently helping:
                     </Text>
                     <Text className='text-2xl text-[#2DC8EA] font-semibold text-center'>
                         {target?.username ? target?.username : '....'}
+                    </Text>
+                </View>
+            }
+
+            {
+                latestSos && latestSos.helperAccepted == null &&
+                <View className='w-[80%] h-32 bg-bgr rounded-xl absolute top-16 justify-center'>
+                    <Text className='text-2xl text-primary font-bold text-center px-10'>
+                        Waiting for someone to accept your SOS...
                     </Text>
                 </View>
             }

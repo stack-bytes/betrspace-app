@@ -3,15 +3,37 @@ import ProfilePicIcon from '../../assets/icons/profilePic-icon.svg';
 import PhoneIcon from '../../assets/icons/phone-icon.svg';
 import { GenericButton } from './Buttons/GenericButton';
 import * as Speech from 'expo-speech'; 
+import { SERVER_IP } from '../../server-config.json';
+import { useContext } from 'react';
+import { UserDataContext } from '../contexts/UserDataContext';
+
+
 
 export default function ArrivingHelpComponent({userName, arrivalTime}) {
     const speak = () => {
         const thingToSay  = `${userName} is arriving in ${arrivalTime} minutes`;
         Speech.speak(thingToSay);
     }
+    const {latestSos, setLatestSos, setTarget} = useContext(UserDataContext);
     // Speech.getAvailableVoicesAsync().then(voices => {
     //     console.log(voices);
     // })
+
+    const cancelRequest = () => {
+        if(!latestSos) return console.warn("No latestSos");
+        fetch(`http://${SERVER_IP}:4949/api/sos/removeSos?deletedSosId=${latestSos._id}`, {
+            method: 'DELETE',
+        
+        })
+        .then(res => res.json())
+        .then(data => {
+            if(data.success){
+                setLatestSos(null);
+                setTarget(null);
+                console.log("Request cancelled");
+            }
+        })
+    }
 
     return (
 
@@ -51,6 +73,7 @@ export default function ArrivingHelpComponent({userName, arrivalTime}) {
                         backgroundColor={'#A1679E'}
                         borderColor={'#A1679E'}
                         width= {'150px'}
+                        onPress = {cancelRequest}
                     />
                 </View>
                 
