@@ -25,7 +25,7 @@ export const UserDataProvider = ({children}) => {
     const [alertMarker, setAlertMarker] = useState(null);
 
     const [user, setUser] = useState({
-        userId: '6573da517e0b1dcd1f0e843d',
+        userId: '6573da517e0b1dcd1f0e843e',
         coords: {
             latitude: 46.770439,
             longitude: 23.591423,
@@ -71,7 +71,7 @@ export const UserDataProvider = ({children}) => {
 
     useEffect(() => {
     
-        const socket = io("http://192.168.35.111:5000",{
+        const socket = io("http://172.20.10.6:5000",{
             transports: ['websocket'],
         });
         setCurrentSocket(socket);
