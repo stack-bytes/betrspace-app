@@ -12,29 +12,33 @@ export const UserDataProvider = ({children}) => {
     const [currentSocket, setCurrentSocket] = useState(null);
     const serverSocketIp = 'http://172.20.10.6:5000'
 
-    const [target, setTarget] = useState({
-        userId: '6573da517e0b1dcd1f0e843d',
+    const [target, setTarget] = useState(
+        /*userId: '6573da517e0b1dcd1f0e843e',
         coords: {
             latitude: 46.770439,
             longitude: 23.591423,
         },
         username: 'John Doe',
         photo: 'https://doctorat.utcluj.ro/images/utcn-logo.png',
-        request: 'I need help!',
-    });
+        request: 'I need help!',*/
+        null
+    );
 
     const [alertMarker, setAlertMarker] = useState(null);
 
     const [user, setUser] = useState({
         userId: '6573da517e0b1dcd1f0e843d',
+        photo: 'https://doctorat.utcluj.ro/images/utcn-logo.png',
         coords: {
             latitude: 46.770439,
             longitude: 23.591423,
         },
     });
 
-    const [latestSos, setLatestSos] = useState(null)
-    
+    const [latestSos, setLatestSos] = useState(null);
+
+    const [myLatestRequest, setMyLatestRequest] = useState(null);
+
     const setTargetLocation = (coords) => {
         setTarget({
             ...target,
@@ -49,6 +53,7 @@ export const UserDataProvider = ({children}) => {
             coords: coords,
         });
     }
+
 
     useEffect(() => {
         (async () => {
@@ -67,7 +72,21 @@ export const UserDataProvider = ({children}) => {
                 setUserLocation(location.coords);
             });
 
-            setUserLocation(location.coords);
+            const foundUser = await fetch(`http://192.168.35.111:4949/api/users/findUserProfile?userId=${user.userId}`);
+
+            const foundUserJson = await foundUser.json();
+            
+            console.log('Fetched user from db');
+
+            setUser({
+                ...user,
+                username: foundUserJson.username,
+                pfp: foundUserJson.pfp,
+                coords: location.coords,
+            });
+
+            console.warn('Set user data', user);
+
         })();
     },[]);
 
@@ -79,7 +98,14 @@ export const UserDataProvider = ({children}) => {
         setCurrentSocket(socket);
         socket.io.on("open", () => {
             console.warn("connected to socket");
+            socket.emit("getLatest");
         });
+
+        socket.on("latestSos", (data) => {
+            console.warn("latestSos", data);
+            //if(latestSos && data._id != latestSos._id) return;
+            setLatestSos(data);
+        })
     
         socket.on("userLocationUpdate", ({userId, data}) => {
 
@@ -99,6 +125,10 @@ export const UserDataProvider = ({children}) => {
       useEffect(() => {
         //Get target user location when target changes
         if(!currentSocket) return;
+
+        if(!target || !target.userId) return;
+
+        console.log("Target changed", target);
 
         currentSocket.emit("getLocation", {userId: target.userId});
       },[target]);
@@ -152,7 +182,10 @@ export const UserDataProvider = ({children}) => {
             setUser,
             alertMarker,
             setAlertMarker,
-            latestSos
+            latestSos,
+            setLatestSos,
+            myLatestRequest,
+            setMyLatestRequest,
         }}>
             {children}
         </UserDataContext.Provider>

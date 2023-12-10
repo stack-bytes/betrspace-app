@@ -1,4 +1,4 @@
-import {View, Text, TouchableOpacity} from 'react-native';
+import {View, Text, TouchableOpacity, StyleSheet} from 'react-native';
 import MapView, { MapMarker, PROVIDER_GOOGLE } from 'react-native-maps';
 import MapViewDirections from 'react-native-maps-directions';
 import {GOOGLE_API_KEY} from '@env';
@@ -10,7 +10,7 @@ import RunIcon from "../../../assets/icons/run-icon.svg";
 import UserIcon from "../../../assets/icons/user-icon.svg";
 import AlertIcon from "../../../assets/icons/alert-icon.svg";
 
-import { useNavigation } from '@react-navigation/native';
+import { useIsFocused, useNavigation } from '@react-navigation/native';
 
 import { Billboard } from '../../components/Buttons/Billboard';
 import ArrivingHelpComponent from '../../components/ArrivingHelpComponent'
@@ -23,18 +23,19 @@ export default function MapScreen(){
 
     const navigation = useNavigation();
 
-    const [billboardActive, setBillboardActive] = useState(true);
+    const [billboardActive, setBillboardActive] = useState(false);
     const [arrivingHelp, setArrivingHelp] = useState(false);
 
     const toggleBillboard = () => {
         setBillboardActive(!billboardActive);
+        console.log('toggle_billboard');
     }
 
     const toggleArrivingHelp = () => {
         setArrivingHelp(!arrivingHelp);
     }
 
-    const {target, setTarget, alertMarker, setAlertMarker, user} = useContext(UserDataContext);
+    const {target, setTarget, alertMarker, setAlertMarker, user, latestSos, myLatestRequest} = useContext(UserDataContext);
 
     const simulateAlert = () => {
         //if(target) return;
@@ -52,7 +53,7 @@ export default function MapScreen(){
             longitudeDelta: 0.01,
         }, 1000);
 
-        setBillboardActive(true);
+        toggleBillboard();
     }
 
     const navigateToHelpOut = () => {
@@ -60,6 +61,47 @@ export default function MapScreen(){
             screen: 'HelpOutScreen',
         });
     }
+
+    useEffect(() => {
+        //Receive SOS
+        console.log('LATEST SOS', latestSos?.helperAccepted);
+        if(!latestSos || target) return;
+
+        //If the sender is the user, ignore
+        if(latestSos?.personInNeedId===user.userId) return console.log('SAME USER');
+
+        console.log('RECEIVED SOS', latestSos);
+        
+        setAlertMarker({
+            coords: {
+                latitude: latestSos.location.latitude,
+                longitude: latestSos.location.longitude,
+            },
+        });
+
+        console.log(alertMarker);
+
+        mapRef.current.animateToRegion({
+            latitude: String(Number(latestSos.location.latitude) + 0.0025),
+            longitude: latestSos.location.longitude,
+            latitudeDelta: 0.01,
+            longitudeDelta: 0.01,
+        }, 1000);
+
+        setBillboardActive(true);
+
+    },[latestSos])
+
+    const isFocused = useIsFocused();
+
+    useEffect(() => {
+        if(target) return;
+
+        console.log("TARGET", target);
+        console.log("USER", user);
+
+        setBillboardActive(false);
+    },[isFocused]);
 
     
     return (
@@ -83,8 +125,8 @@ export default function MapScreen(){
                         longitude: user?.coords.longitude,
                     }}
                     destination={{
-                        latitude: target?.coords.latitude,
-                        longitude: target?.coords.longitude,
+                        latitude: target?.coords?.latitude,
+                        longitude: target?.coords?.longitude,
                     }}
                     strokeWidth={3}
                     strokeColor="#A1679E"
@@ -123,7 +165,7 @@ export default function MapScreen(){
                 </MapMarker>
 
                 {
-                    alertMarker && 
+                    alertMarker && !target &&
                     <MapMarker 
                         coordinate={alertMarker?.coords}
                         title='Help me!'
@@ -131,6 +173,7 @@ export default function MapScreen(){
                             width: 50,
                             height: 50,
                         }}
+                        onPress={toggleBillboard}
                     >
                         <View className='w-full h-full bg-[#fff] rounded-full justify-center items-center'>
                             <AlertIcon width='60%' height='100%' fill='#A1679E'/>
@@ -145,7 +188,10 @@ export default function MapScreen(){
                 <Billboard 
                     onPress={toggleBillboard} 
                     onMainPress={navigateToHelpOut}
-                    target={target}
+                    target={{
+                        username: 'test',
+                        distance: '4',
+                    }}
                 />
             }
 
@@ -172,6 +218,45 @@ export default function MapScreen(){
                 onPress={simulateAlert}
             />
 
+            {
+                target && latestSos?.helperAccepted == user.userId && 
+                <View style = {styles.shadow} className='absolute top-20 w-[80%] h-[10%] bg-[#FFFF] justify-center rounded-3xl'>
+                    <Text className='text-[20px] text-black font-semibold text-center'>
+                        Currently helping:
+                    </Text>
+                    <Text className='text-2xl text-[#2DC8EA] font-semibold text-center'>
+                        {target?.username ? target?.username : '....'}
+                    </Text>
+                </View>
+            }
+
+            {
+                latestSos && latestSos.helperAccepted == null &&
+                <View className='w-[80%] h-32 bg-bgr rounded-xl absolute top-16 justify-center'>
+                    <Text className='text-2xl text-primary font-bold text-center px-10'>
+                        Waiting for someone to accept your SOS...
+                    </Text>
+                </View>
+            }
+
+            {
+                latestSos?.personInNeedId == user.userId &&
+                <ArrivingHelpComponent 
+                    userName='test'
+                    arrivalTime={4}
+                />
+            }
+
         </View>
     )
 }
+
+const styles = StyleSheet.create({
+    shadow: {
+        shadowColor: '#000000',
+        shadowOffset: { width: 4, height: 6 },
+        shadowOpacity: 0.2,
+        shadowRadius: 4,
+
+    }
+})

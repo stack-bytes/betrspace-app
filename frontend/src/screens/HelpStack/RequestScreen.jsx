@@ -9,15 +9,17 @@ import {GenericInput} from "../../components/Buttons/GenericInput"
 
 import { UserDataContext } from '../../contexts/UserDataContext';
 import io from 'socket.io-client';
-
+import {SERVER_IP} from "../../../server-config.json";
+import { UserDataContext } from '../../contexts/UserDataContext';
 
 
 const RequestScreen = () => {
     const [text, setText] = useState('');
     
     const navigation = useNavigation();
-    const serverUrl = 'http://172.20.10.6:5000';
-    const {user} = useContext(UserDataContext);
+    const { user, setMyLatestRequest } = useContext(UserDataContext);
+    const serverUrl = 'http://'+SERVER_IP+':5000';
+  
     const sendSos = () => {
         const socket = io(serverUrl, {
             transports: ['websocket'],
@@ -27,10 +29,10 @@ const RequestScreen = () => {
         try {
             socket.on("connect", async () => {
                 socket.emit('createSos', {
-                    latitude: user.coords.latitude,
-                    longitude: user.coords.longitude,
+                    latitude: await user?.coords.latitude + 0.01,
+                    longitude: await user?.coords.longitude,
                     description: text,
-                    personInNeedId: user?.userId
+                    personInNeedId: user.userId,
                 });
                 socket.disconnect();
             });
@@ -57,7 +59,9 @@ const RequestScreen = () => {
             <Text className = 'text-[35px] pb-8'>Request Help</Text>
 
             <View className = 'mb-44 h-14 w-[85%] items-center justify-center rounded-[25px] bg-slate-950/[.15]'>
-                <GenericInput setFieldToVar={setText}></GenericInput>
+                <GenericInput 
+                    changeText={(text) => setText(text)}
+                />
             </View>
              
             

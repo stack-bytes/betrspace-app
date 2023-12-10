@@ -12,28 +12,59 @@ import { useContext, useState } from "react";
 import { UserDataContext } from "../../contexts/UserDataContext";
 import { GenericButton } from "../../components/Buttons/GenericButton";
 
+import {SERVER_IP} from "../../../server-config.json";
 export default function HelpOutScreen(){
     const navigation = useNavigation();
 
     const [pending, setPending] = useState(false);
 
-    const {target, alertMarker, setAlertMarker, setTargetLocation} = useContext(UserDataContext);
+    const {target, alertMarker, setAlertMarker, setTargetLocation, setTarget, latestSos, user, setMyLatestRequest} = useContext(UserDataContext);
 
-    const setTargetAlert = () => {
+    const setTargetAlert =  () => {
+
+        if(target) return;
         
-        setTargetLocation(
-            {
-                latitude: alertMarker.coords.latitude,
-                longitude: alertMarker.coords.longitude,
-            }
-        );
+        console.log("test",alertMarker);
+        
+        const targetUserId = '6573da517e0b1dcd1f0e843e';
+        
+        fetch(`http://192.168.35.111:4949/api/users/findUserProfile?userId=${targetUserId}`)
+        .then(res => res.json())
+        .then(res => {
+            console.log(res);
+            setTarget({
+                userId: targetUserId,
+                username: res.username,
+                photo: res.pfp,
+                request: 'I need help!',
+                coords: alertMarker.coords,
+            })
+
+            fetch(`http://${SERVER_IP}:4949/api/sos/addColaborator?colabId=${user.userId}&sosId=${latestSos._id}`, {
+                method: 'POST',
+            }).then(res => res.json()).then(res => console.warn(res));
+    
+            navigation.getParent().navigate('HomeStack', {
+                screen: 'MapScreen',
+            });
+
+            setAlertMarker(null);
+        })
+
+    }
+
+    const cancelHelpAction = () => {
+        if(!latestSos) return;
+        
+        setTarget(null);
+
+        fetch(`http://${SERVER_IP}:4949/api/sos/addColaborator?colabId=null&sosId=${latestSos._id}`, {
+            method: 'POST',
+        }).then(res => res.json()).then(res => console.warn(res));
 
         navigation.getParent().navigate('HomeStack', {
             screen: 'MapScreen',
         });
-
-        setAlertMarker(null);
-
     }
 
     return (
@@ -47,7 +78,7 @@ export default function HelpOutScreen(){
 
             <View className='w-full pb-3'>
                 <Text className='text-2xl text-center'>
-                    {target?.username} needs your help!
+                    John Doe needs your help!
                 </Text>
             </View>
             <View className='w-[80%] h-80 items-start justify-end'>
@@ -92,16 +123,26 @@ export default function HelpOutScreen(){
                 </View>
             </View>
 
-            <View className='pt-32 pb-10 w-full items-center'>
+            <View className='pt-25 pb-10 w-full items-center'>
                 {
-                    pending ? (
-                        <View className='w-[80%] items-center'>
-                            <Text className='text-4xl font-semibold'>
-                                Request sent!
-                            </Text>
-                            <Text className='text-xl font-semibold text-[#2DC8EA]'>
-                                Waiting for {target?.username} to accept...
-                            </Text>
+                    target ? (
+                        <View>
+                            <GenericButton 
+                                buttonText='Contact'
+                                onPress={() => navigation.goBack()}
+                                width={250}
+                                height={60}
+                                backgroundColor={'#2DC8EA'}
+                                borderColor={'#2DC8EA'}
+                            />
+                            <GenericButton 
+                                buttonText='Cancel'
+                                onPress={cancelHelpAction}
+                                width={250}
+                                height={60}
+                                backgroundColor={'#2DC8EA'}
+                                borderColor={'#2DC8EA'}
+                            />
                         </View>
                     ) : (
                         <GenericButton 
