@@ -239,13 +239,6 @@ export default function MapScreen(){
                 </View>
             }
 
-            {
-                latestSos?.personInNeedId == user.userId &&
-                <ArrivingHelpComponent 
-                    userName='test'
-                    arrivalTime={4}
-                />
-            }
 
         </View>
     )

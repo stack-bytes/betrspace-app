@@ -2,29 +2,29 @@ import {View, Text, TouchableOpacity, TextInput, StyleSheet} from 'react-native'
 import AlertIcon from '../../../assets/icons/alert-icon.svg';
 import ArrowIcon from '../../../assets/icons/arrow-icon.svg';
 import {GenericButton} from '../../components/Buttons/GenericButton';
-import {useContext, useState} from 'react';
+import React, {useState, useContext} from 'react';
 import { useNavigation } from '@react-navigation/native';
 import * as speech from 'expo-speech';
-
 import {GenericInput} from "../../components/Buttons/GenericInput"
 
-import React, { useEffect } from 'react';
+import { UserDataContext } from '../../contexts/UserDataContext';
 import io from 'socket.io-client';
 import {SERVER_IP} from "../../../server-config.json";
 import { UserDataContext } from '../../contexts/UserDataContext';
 
 
-export default function RequestScreen() {
+const RequestScreen = () => {
     const [text, setText] = useState('');
     
     const navigation = useNavigation();
     const { user, setMyLatestRequest } = useContext(UserDataContext);
     const serverUrl = 'http://'+SERVER_IP+':5000';
-
+  
     const sendSos = () => {
         const socket = io(serverUrl, {
             transports: ['websocket'],
         });
+        
     
         try {
             socket.on("connect", async () => {
@@ -89,3 +89,6 @@ const styles = StyleSheet.create({
         shadowRadius: 4,
     }
 })
+
+
+export default RequestScreen
