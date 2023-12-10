@@ -11,7 +11,7 @@ export const GenericButton = ({textSize, buttonText, backgroundColor, textColor,
             onPress={onPress}
         >
            
-            <View className = 'flex-row gap-x-3 justify-center items-center'>
+            <View className = 'flex-row gap-x-3 justify-center items-center pl-3'>
                 {SvgIcon ? <SvgIcon fill={SvgIconColor ? SvgIconColor : 'white'} /> : null}
                 
                 <Text style = {[styles.text,
