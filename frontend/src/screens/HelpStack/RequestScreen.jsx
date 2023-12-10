@@ -6,10 +6,39 @@ import {useState} from 'react';
 import { useNavigation } from '@react-navigation/native';
 import * as speech from 'expo-speech';
 
+import {GenericInput} from "../../components/Buttons/GenericInput"
+
+import React, { useEffect } from 'react';
+import io from 'socket.io-client';
+
+
+
 export default function RequestScreen() {
     const [text, setText] = useState('');
     
     const navigation = useNavigation();
+    const serverUrl = 'http://172.20.10.6:5000';
+
+    const sendSos = () => {
+        const socket = io(serverUrl, {
+            transports: ['websocket'],
+        });
+    
+        try {
+            socket.on("connect", () => {
+                socket.emit('createSos', {
+                    latitude: 1234,
+                    longitude: 1234,
+                    description: "lorem impsum",
+                    personInNeedId: "q6q76498716487752"
+                });
+                socket.disconnect();
+            });
+        } catch (ex) {
+            console.log("Could not emit ", ex);
+        }
+    }
+
 
     
 
@@ -27,15 +56,8 @@ export default function RequestScreen() {
             </View>
             <Text className = 'text-[35px] pb-8'>Request Help</Text>
 
-            <View style = {styles.shadow} className = 'bg-[#FFFF] mb-44 h-14 w-[85%] items-center justify-center rounded-[25px] bg-slate-950/[.15]'>
-                <TextInput
-                    placeholder = "Your problem ..."
-                    placeholderTextColor = "rgb(192, 192, 192, 1)"
-                    onChangeText={newText => setText(newText)}
-                    defaultValue = {text}
-                    className = 'pl-2 w-full h-full text-[20px] text-white'	
-                    returnKeyType="done"
-                />
+            <View className = 'mb-44 h-14 w-[85%] items-center justify-center rounded-[25px] bg-slate-950/[.15]'>
+                <GenericInput></GenericInput>
             </View>
              
             
@@ -45,7 +67,10 @@ export default function RequestScreen() {
                 backgroundColor={'#2DC8EA'}
                 borderColor={'#2DC8EA'}
                 textSize={20}
-                onPress = {() => navigation.navigate('ArrivingHelpScreen')}
+                onPress = {() => {
+                    sendSos();
+                    navigation.navigate('ArrivingHelpScreen')}
+                }
             />  
             
         </View>

@@ -1,2 +1,6 @@
 frontend/package-lock.json
 frontend/yarn.lock
+
+backend/.env
+
+node_modules    
