@@ -3,17 +3,17 @@ const { ObjectId } = require('mongodb');
 
 const sendLiveLocation = async (params) =>{
     const userId = params.userId;
-    const latitude = params.latitud;
+    const latitude = params.latitude;
     const longitude = params.longitude;
     
     try{
-        const sentUserLocation = User.findByIdAndUpdate(userId, {$set: {location:{
+        const sentUserLocation = await User.findByIdAndUpdate(userId, {$set: {location:{
             latitude: latitude,
             longitude:longitude,
         }}}, { new: true })
 
-        if (updatedDocument) {
-            console.log('Document updated:', sentUserLocation);
+        if (sentUserLocation) {
+            console.log('Location updated for user:', sentUserLocation);
           } else {
             console.log('Document not found');
           }
@@ -37,14 +37,18 @@ const getLiveLocation = async (params, socket) => {
 
         changeStream.on('init', (change) => {
             if(change.documentKey._id == userId){
-                socket.emit('userLocationUpdate', { userId,  change});
+                const foundUser = await User.findById(userId);
+                console.log('userLocationUpdate', { userId })
+                socket.emit('userLocationUpdate', { userId,  data: foundUser});
             }
         })
 
-        changeStream.on('change', (change) => {
+        changeStream.on('change', async (change) => {
             if(change.documentKey._id == userId){
+
+                const foundUser = await User.findById(userId);
                 console.log('userLocationUpdate', { userId,  change:"test"});
-                socket.emit('userLocationUpdate', { userId,  change});
+                socket.emit('userLocationUpdate', { userId,  data: foundUser});
             }
         });
 

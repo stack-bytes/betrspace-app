@@ -4,6 +4,9 @@ import { useNavigation } from "@react-navigation/native";
 
 import ArrowIcon from "../../../assets/icons/arrow-icon.svg";
 import MarkerIcon from "../../../assets/icons/marker-icon.svg";
+import Disbled1Icon from "../../../assets/icons/disabled1-icon.svg";
+import Disbled2Icon from "../../../assets/icons/disabled2-icon.svg";
+
 
 import { useContext, useState } from "react";
 import { UserDataContext } from "../../contexts/UserDataContext";
@@ -83,6 +86,10 @@ export default function HelpOutScreen(){
                 <Text className='text-center text-2xl '>
                     Be mindful of:
                 </Text>
+                <View className = 'flex-row gap-x-[-12px]'>
+                    <TouchableOpacity><Disbled2Icon/></TouchableOpacity>
+                    <TouchableOpacity><Disbled1Icon/></TouchableOpacity>
+                </View>
             </View>
 
             <View className='pt-32 pb-10 w-full items-center'>

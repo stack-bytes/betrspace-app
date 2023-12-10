@@ -24,7 +24,13 @@ export const UserDataProvider = ({children}) => {
 
     const [alertMarker, setAlertMarker] = useState(null);
 
-    const [user, setUser] = useState(null);
+    const [user, setUser] = useState({
+        userId: '6573da517e0b1dcd1f0e843d',
+        coords: {
+            latitude: 46.770439,
+            longitude: 23.591423,
+        },
+    });
     
     const setTargetLocation = (coords) => {
         console.log("test",coords)
@@ -63,15 +69,51 @@ export const UserDataProvider = ({children}) => {
         })();
     },[]);
 
+    useEffect(() => {
+    
+        const socket = io("http://192.168.35.111:5000",{
+            transports: ['websocket'],
+        });
+        setCurrentSocket(socket);
+        socket.io.on("open", () => {
+            console.warn("connected to socket");
+        });
+    
+        socket.on("userLocationUpdate", ({userId, data}) => {
 
-      /*useEffect(() => {
+            setTargetLocation(data.location);
+
+            console.warn('Updated target location', data.location);
+
+        });
+    
+    
+        return () => {
+            socket.io.disconnect();
+        }
+      },[]);
+
+
+      useEffect(() => {
+        //Get target user location when target changes
         if(!currentSocket) return;
 
-        console.log("target changed",target);
+        currentSocket.emit("getLocation", {userId: target.userId});
+      },[target]);
+
+      useEffect(() => {
+        //Send user location when user changes
+        if(!currentSocket) return;
+
+        console.log("user changed",user);
         console.log("currentSocket",currentSocket);
 
-        currentSocket.io.emit("getLocation", {userId: target.userId});
-      },[target]);*/
+        currentSocket.emit("sendLocation", {
+            userId: user.userId,
+            latitude: user.coords.latitude,
+            longitude: user.coords.longitude,
+        });
+      },[user]);
 
 
 
