@@ -1,5 +1,6 @@
 # BetrSpace Mobile App 🚀
 ![BetrSpace Logo](https://github.com/stack-bytes/betrspace-app/assets/147537737/b1ee846d-ec0f-416b-853c-6b542b0c96b5)
+![image](https://github.com/stack-bytes/betrspace-app/assets/147537737/64e878c0-328e-4809-97d8-5360032001fa)
 
 ## Overview
 
